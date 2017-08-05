@@ -8,18 +8,18 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>vue-router：嵌套路由的使用方法 | Zhiping&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1.模板抽离我们用&amp;lt;template&amp;gt;&amp;lt;/template&amp;gt;来定义Vue模板。                 首页     &amp;lt;template id=&amp;quot;news&amp;quot;&amp;gt;    &amp;lt;div&amp;gt;新闻&amp;lt;/div&amp;gt; &amp;lt;/template&amp;gt; 然后js里定义路由组件的时候： // 1. 定义（路由）组件。 const Hom">
+  <meta name="description" content="1.模板抽离我们用&amp;lt;template&amp;gt;&amp;lt;/template&amp;gt;来定义Vue模板。 &amp;lt;!-- 模板抽离出来 --&amp;gt; &amp;lt;template id=&amp;quot;home&amp;quot;&amp;gt;     &amp;lt;div&amp;gt;首页&amp;lt;/div&amp;gt; &amp;lt;/template&amp;gt;   &amp;lt;template id=&amp;quot;news&amp;quot;&amp;gt;">
 <meta name="keywords" content="vuejs2.0，vue-router">
 <meta property="og:type" content="article">
 <meta property="og:title" content="vue-router：嵌套路由的使用方法">
 <meta property="og:url" content="http://yoursite.com/2017/08/05/vue-router：嵌套路由的使用方法/index.html">
 <meta property="og:site_name" content="Zhiping&#39;s Blog">
-<meta property="og:description" content="1.模板抽离我们用&amp;lt;template&amp;gt;&amp;lt;/template&amp;gt;来定义Vue模板。                 首页     &amp;lt;template id=&amp;quot;news&amp;quot;&amp;gt;    &amp;lt;div&amp;gt;新闻&amp;lt;/div&amp;gt; &amp;lt;/template&amp;gt; 然后js里定义路由组件的时候： // 1. 定义（路由）组件。 const Hom">
+<meta property="og:description" content="1.模板抽离我们用&amp;lt;template&amp;gt;&amp;lt;/template&amp;gt;来定义Vue模板。 &amp;lt;!-- 模板抽离出来 --&amp;gt; &amp;lt;template id=&amp;quot;home&amp;quot;&amp;gt;     &amp;lt;div&amp;gt;首页&amp;lt;/div&amp;gt; &amp;lt;/template&amp;gt;   &amp;lt;template id=&amp;quot;news&amp;quot;&amp;gt;">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2017-08-05T12:23:24.000Z">
+<meta property="og:updated_time" content="2017-08-05T12:25:56.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="vue-router：嵌套路由的使用方法">
-<meta name="twitter:description" content="1.模板抽离我们用&amp;lt;template&amp;gt;&amp;lt;/template&amp;gt;来定义Vue模板。                 首页     &amp;lt;template id=&amp;quot;news&amp;quot;&amp;gt;    &amp;lt;div&amp;gt;新闻&amp;lt;/div&amp;gt; &amp;lt;/template&amp;gt; 然后js里定义路由组件的时候： // 1. 定义（路由）组件。 const Hom">
+<meta name="twitter:description" content="1.模板抽离我们用&amp;lt;template&amp;gt;&amp;lt;/template&amp;gt;来定义Vue模板。 &amp;lt;!-- 模板抽离出来 --&amp;gt; &amp;lt;template id=&amp;quot;home&amp;quot;&amp;gt;     &amp;lt;div&amp;gt;首页&amp;lt;/div&amp;gt; &amp;lt;/template&amp;gt;   &amp;lt;template id=&amp;quot;news&amp;quot;&amp;gt;">
   
   
   <link rel="stylesheet" type="text/css" href="/./main.266c1c.css">
@@ -171,12 +171,17 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="1-模板抽离"><a href="#1-模板抽离" class="headerlink" title="1.模板抽离"></a>1.模板抽离</h3><p>我们用<code>&lt;template&gt;&lt;/template&gt;</code>来定义Vue模板。<br>     <!-- 模板抽离出来 --><br>    <template id="home"><br>        <div>首页</div><br>    </template></p>
-<pre><code>&lt;template id=&quot;news&quot;&gt;
-   &lt;div&gt;新闻&lt;/div&gt;
+        <h3 id="1-模板抽离"><a href="#1-模板抽离" class="headerlink" title="1.模板抽离"></a>1.模板抽离</h3><p>我们用<code>&lt;template&gt;&lt;/template&gt;</code>来定义Vue模板。</p>
+<pre><code>&lt;!-- 模板抽离出来 --&gt;
+&lt;template id=&quot;home&quot;&gt;
+    &lt;div&gt;首页&lt;/div&gt;
 &lt;/template&gt;
+
+ &lt;template id=&quot;news&quot;&gt;
+    &lt;div&gt;新闻&lt;/div&gt;
+ &lt;/template&gt;
 </code></pre><p>然后js里定义路由组件的时候：</p>
-<pre><code>// 1. 定义（路由）组件。
+<pre><code>// 定义（路由）组件。
 const Home = { template: &apos;#home&apos; };
 const News = { template: &apos;#news&apos; };
 </code></pre><h3 id="2-路由嵌套"><a href="#2-路由嵌套" class="headerlink" title="2.路由嵌套"></a>2.路由嵌套</h3><p>实际应用界面，通常由多层嵌套的组件组合而成。<br>比如，我们 “首页”组件中，还嵌套着 “登录”和 “注册”组件，那么URL对应就是/home/login和/home/reg。</p>
