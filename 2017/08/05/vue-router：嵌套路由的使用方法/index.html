@@ -6,18 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2017/8 | Zhiping&#39;s Blog</title>
+  <title>vue-router：嵌套路由的使用方法 | Zhiping&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="前端小学徒一枚">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Zhiping&#39;s Blog">
-<meta property="og:url" content="http://yoursite.com/archives/2017/08/index.html">
+  <meta name="description" content="vue-router：嵌套路由的使用方法模板抽离我们已经学习过了Vue模板的另外定义形式，使用。                  首页     &amp;lt;template id=&amp;quot;news&amp;quot;&amp;gt;    &amp;lt;div&amp;gt;新闻&amp;lt;/div&amp;gt; &amp;lt;/template&amp;gt; 然后js里定义路由组件的时候： // 1. 定义（路由）组件。 const Home">
+<meta name="keywords" content="vuejs2.0，vue-router">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vue-router：嵌套路由的使用方法">
+<meta property="og:url" content="http://yoursite.com/2017/08/05/vue-router：嵌套路由的使用方法/index.html">
 <meta property="og:site_name" content="Zhiping&#39;s Blog">
-<meta property="og:description" content="前端小学徒一枚">
+<meta property="og:description" content="vue-router：嵌套路由的使用方法模板抽离我们已经学习过了Vue模板的另外定义形式，使用。                  首页     &amp;lt;template id=&amp;quot;news&amp;quot;&amp;gt;    &amp;lt;div&amp;gt;新闻&amp;lt;/div&amp;gt; &amp;lt;/template&amp;gt; 然后js里定义路由组件的时候： // 1. 定义（路由）组件。 const Home">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2017-08-05T12:15:08.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Zhiping&#39;s Blog">
-<meta name="twitter:description" content="前端小学徒一枚">
+<meta name="twitter:title" content="vue-router：嵌套路由的使用方法">
+<meta name="twitter:description" content="vue-router：嵌套路由的使用方法模板抽离我们已经学习过了Vue模板的另外定义形式，使用。                  首页     &amp;lt;template id=&amp;quot;news&amp;quot;&amp;gt;    &amp;lt;div&amp;gt;新闻&amp;lt;/div&amp;gt; &amp;lt;/template&amp;gt; 然后js里定义路由组件的时候： // 1. 定义（路由）组件。 const Home">
   
   
   <link rel="stylesheet" type="text/css" href="/./main.266c1c.css">
@@ -149,36 +151,178 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-vue-router：嵌套路由的使用方法" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/08/05/vue-router：嵌套路由的使用方法/" class="archive-article-date">
-  	<time datetime="2017-08-05T12:07:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-05</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/08/05/vue-router：嵌套路由的使用方法/">vue-router：嵌套路由的使用方法</a>
+    <h1 class="article-title" itemprop="name">
+      vue-router：嵌套路由的使用方法
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2017/08/05/vue-router：嵌套路由的使用方法/" class="archive-article-date">
+  	<time datetime="2017-08-05T12:07:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-05</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="vue-router：嵌套路由的使用方法"><a href="#vue-router：嵌套路由的使用方法" class="headerlink" title="vue-router：嵌套路由的使用方法"></a>vue-router：嵌套路由的使用方法</h2><h3 id="模板抽离"><a href="#模板抽离" class="headerlink" title="模板抽离"></a>模板抽离</h3><p>我们已经学习过了Vue模板的另外定义形式，使用<template></template>。<br>      <!-- 模板抽离出来 --><br>    <template id="home"><br>        <div>首页</div><br>    </template></p>
+<pre><code>&lt;template id=&quot;news&quot;&gt;
+   &lt;div&gt;新闻&lt;/div&gt;
+&lt;/template&gt;
+</code></pre><p>然后js里定义路由组件的时候：</p>
+<pre><code>// 1. 定义（路由）组件。
+const Home = { template: &apos;#home&apos; };
+const News = { template: &apos;#news&apos; };
+</code></pre><h3 id="路由嵌套"><a href="#路由嵌套" class="headerlink" title="路由嵌套"></a>路由嵌套</h3><p>实际应用界面，通常由多层嵌套的组件组合而成。<br>比如，我们 “首页”组件中，还嵌套着 “登录”和 “注册”组件，那么URL对应就是/home/login和/home/reg。</p>
+<pre><code>&lt;template id=&quot;home&quot;&gt;
+  &lt;!-- 注意：组件只能有一个根元素，所以我们包装到这个div中 --&gt;
+  &lt;div&gt;
+    &lt;h2&gt;首页&lt;/h2&gt;
+     &lt;router-link to=&quot;/home/login&quot;&gt;登录&lt;/router-link&gt;
+    &lt;router-link to=&quot;/home/reg&quot;&gt;注册&lt;/router-link&gt;
+    &lt;!-- 路由匹配到的组件将渲染在这里 --&gt;
+    &lt;router-view&gt;&lt;/router-view&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+</code></pre><p>这是访问/home后的模板，其中我们需要把/home/login和/home/reg渲染进来。</p>
+<p>登录和注册2个组件</p>
+<pre><code>  &lt;template id=&quot;login&quot;&gt;
+    &lt;div&gt;登录界面&lt;/div&gt;
+  &lt;/template&gt;
+  &lt;template id=&quot;reg&quot;&gt;
+    &lt;div&gt;注册界面&lt;/div&gt;
+  &lt;/template&gt;
+//定义路由组件
+const Login = { template: &apos;#login&apos; };
+    const Reg = { template: &apos;#reg&apos; };
+</code></pre><h3 id="定义路由"><a href="#定义路由" class="headerlink" title="定义路由"></a>定义路由</h3><pre><code>// 定义路由
+const routes = [
+   { path: &apos;/&apos;, redirect: &apos;/home&apos; },
+  {
+    path: &apos;/home&apos;,
+    component: Home,
+    children:[
+      { path: &apos;/home/login&apos;, component: Login},
+      { path: &apos;/home/reg&apos;, component: Reg}
+    ]
+  },
+  { path: &apos;/news&apos;, component: News}
+]
+</code></pre><p>注意我们在home路由配置了它的children。这就是嵌套路由。</p>
+<h3 id="案例全部代码如下："><a href="#案例全部代码如下：" class="headerlink" title="案例全部代码如下："></a>案例全部代码如下：</h3><pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;&lt;/title&gt;
+  &lt;meta charset=&quot;utf-8&quot;&gt;
+  &lt;script src=&quot;http://unpkg.com/vue/dist/vue.js&quot;&gt;&lt;/script&gt;
+  &lt;script src=&quot;https://unpkg.com/vue-router/dist/vue-router.js&quot;&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div id=&quot;box&quot;&gt;
+    &lt;p&gt;
+      &lt;router-link to=&quot;/home&quot;&gt;home&lt;/router-link&gt;
+      &lt;router-link to=&quot;/news&quot;&gt;news&lt;/router-link&gt;
+    &lt;/p&gt;
+     &lt;router-view&gt;&lt;/router-view&gt;
+  &lt;/div&gt;
+
+  &lt;!-- 模板抽离出来 --&gt;
+  &lt;template id=&quot;home&quot;&gt;
+    &lt;!-- 注意：组件只能有一个根元素，所以我们包装到这个div中 --&gt;
+    &lt;div&gt;
+      &lt;h2&gt;首页&lt;/h2&gt;
+       &lt;router-link to=&quot;/home/login&quot;&gt;登录&lt;/router-link&gt;
+      &lt;router-link to=&quot;/home/reg&quot;&gt;注册&lt;/router-link&gt;
+      &lt;!-- 路由匹配到的组件将渲染在这里 --&gt;
+      &lt;router-view&gt;&lt;/router-view&gt;
+    &lt;/div&gt;
+  &lt;/template&gt;
+
+  &lt;template id=&quot;news&quot;&gt;
+    &lt;div&gt;新闻&lt;/div&gt;
+  &lt;/template&gt;
+
+  &lt;template id=&quot;login&quot;&gt;
+    &lt;div&gt;登录界面&lt;/div&gt;
+  &lt;/template&gt;
+  &lt;template id=&quot;reg&quot;&gt;
+    &lt;div&gt;注册界面&lt;/div&gt;
+  &lt;/template&gt;
+
+  &lt;script type=&quot;text/javascript&quot;&gt;
+    // 1. 定义（路由）组件。
+    const Home = { template: &apos;#home&apos; };
+    const News = { template: &apos;#news&apos; };
+
+    const Login = { template: &apos;#login&apos; };
+    const Reg = { template: &apos;#reg&apos; };
+
+    // 2. 定义路由
+    const routes = [
+       { path: &apos;/&apos;, redirect: &apos;/home&apos; },
+      {
+        path: &apos;/home&apos;,
+        component: Home,
+        children:[
+          { path: &apos;/home/login&apos;, component: Login},
+          { path: &apos;/home/reg&apos;, component: Reg}
+        ]
+      },
+      { path: &apos;/news&apos;, component: News}
+    ]
+
+    // 3. 创建 router 实例，然后传 `routes` 配置
+    const router = new VueRouter({
+      routes // （缩写）相当于 routes: routes
+    })
+
+
+    // 4. 创建和挂载根实例。
+    // 记得要通过 router 配置参数注入路由，
+    // 从而让整个应用都有路由功能
+    const app = new Vue({
+     router
+    }).$mount(&apos;#box&apos;)
+
+    // 现在，应用已经启动了！
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -190,7 +334,7 @@
 		</ul>
 	</div>
 
-          
+      
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
 		<ul class="article-tag-list">
@@ -203,44 +347,122 @@
 	</div>
 
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/08/05/vue-router：嵌套路由的使用方法/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/08/05/hello-world/" class="archive-article-date">
-  	<time datetime="2017-08-05T02:29:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-05</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2017/08/05/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Hello World</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/08/05/hello-world/">Hello World</a>
-    </h1>
+  <div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="vue-router：嵌套路由的使用方法" data-title="vue-router：嵌套路由的使用方法" data-url="http://yoursite.com/2017/08/05/vue-router：嵌套路由的使用方法/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+  
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
   
 
-    
+  
 
 
           </div>
@@ -263,8 +485,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
