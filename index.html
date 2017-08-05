@@ -171,7 +171,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="模板抽离"><a href="#模板抽离" class="headerlink" title="模板抽离"></a>模板抽离</h3><p>我们已经学习过了Vue模板的另外定义形式，使用<template></template>。<br>      <!-- 模板抽离出来 --><br>    <template id="home"><br>        <div>首页</div><br>    </template></p>
+        <h3 id="1-模板抽离"><a href="#1-模板抽离" class="headerlink" title="1.模板抽离"></a>1.模板抽离</h3><p>我们用<code>&lt;template&gt;&lt;/template&gt;</code>来定义Vue模板。<br>     <!-- 模板抽离出来 --><br>    <template id="home"><br>        <div>首页</div><br>    </template></p>
 <pre><code>&lt;template id=&quot;news&quot;&gt;
    &lt;div&gt;新闻&lt;/div&gt;
 &lt;/template&gt;
@@ -179,7 +179,7 @@
 <pre><code>// 1. 定义（路由）组件。
 const Home = { template: &apos;#home&apos; };
 const News = { template: &apos;#news&apos; };
-</code></pre><h3 id="路由嵌套"><a href="#路由嵌套" class="headerlink" title="路由嵌套"></a>路由嵌套</h3><p>实际应用界面，通常由多层嵌套的组件组合而成。<br>比如，我们 “首页”组件中，还嵌套着 “登录”和 “注册”组件，那么URL对应就是/home/login和/home/reg。</p>
+</code></pre><h3 id="2-路由嵌套"><a href="#2-路由嵌套" class="headerlink" title="2.路由嵌套"></a>2.路由嵌套</h3><p>实际应用界面，通常由多层嵌套的组件组合而成。<br>比如，我们 “首页”组件中，还嵌套着 “登录”和 “注册”组件，那么URL对应就是/home/login和/home/reg。</p>
 <pre><code>&lt;template id=&quot;home&quot;&gt;
   &lt;!-- 注意：组件只能有一个根元素，所以我们包装到这个div中 --&gt;
   &lt;div&gt;
@@ -201,7 +201,7 @@ const News = { template: &apos;#news&apos; };
 //定义路由组件
 const Login = { template: &apos;#login&apos; };
     const Reg = { template: &apos;#reg&apos; };
-</code></pre><h3 id="定义路由"><a href="#定义路由" class="headerlink" title="定义路由"></a>定义路由</h3><pre><code>// 定义路由
+</code></pre><h3 id="3-定义路由"><a href="#3-定义路由" class="headerlink" title="3.定义路由"></a>3.定义路由</h3><pre><code>// 定义路由
 const routes = [
    { path: &apos;/&apos;, redirect: &apos;/home&apos; },
   {
@@ -215,7 +215,7 @@ const routes = [
   { path: &apos;/news&apos;, component: News}
 ]
 </code></pre><p>注意我们在home路由配置了它的children。这就是嵌套路由。</p>
-<h3 id="案例全部代码如下："><a href="#案例全部代码如下：" class="headerlink" title="案例全部代码如下："></a>案例全部代码如下：</h3><pre><code>&lt;!DOCTYPE html&gt;
+<h3 id="4-案例全部代码如下："><a href="#4-案例全部代码如下：" class="headerlink" title="4.案例全部代码如下："></a>4.案例全部代码如下：</h3><pre><code>&lt;!DOCTYPE html&gt;
 &lt;html&gt;
 &lt;head&gt;
   &lt;title&gt;&lt;/title&gt;
