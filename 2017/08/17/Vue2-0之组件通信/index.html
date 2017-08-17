@@ -6,18 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2017 | Zhiping&#39;s Blog</title>
+  <title>Vue2.0之组件通信 | Zhiping&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="前端小学徒一枚">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Zhiping&#39;s Blog">
-<meta property="og:url" content="http://yoursite.com/archives/2017/index.html">
+  <meta name="description" content="1.父组件的data写法与子组件的data写法不同1234567891011//父组件data:&amp;#123;    //对象形式&amp;#125;//子组件data:function()&amp;#123;  return &amp;#123;       //函数形式     &amp;#125;&amp;#125; 2.引用子组件遵循引入组件 components里定义使用 如果有通信，需要在子组件的props注册 以下实例全部使">
+<meta name="keywords" content="vue2.0, 组件通信">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vue2.0之组件通信">
+<meta property="og:url" content="http://yoursite.com/2017/08/17/Vue2-0之组件通信/index.html">
 <meta property="og:site_name" content="Zhiping&#39;s Blog">
-<meta property="og:description" content="前端小学徒一枚">
+<meta property="og:description" content="1.父组件的data写法与子组件的data写法不同1234567891011//父组件data:&amp;#123;    //对象形式&amp;#125;//子组件data:function()&amp;#123;  return &amp;#123;       //函数形式     &amp;#125;&amp;#125; 2.引用子组件遵循引入组件 components里定义使用 如果有通信，需要在子组件的props注册 以下实例全部使">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2017-08-17T15:52:48.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Zhiping&#39;s Blog">
-<meta name="twitter:description" content="前端小学徒一枚">
+<meta name="twitter:title" content="Vue2.0之组件通信">
+<meta name="twitter:description" content="1.父组件的data写法与子组件的data写法不同1234567891011//父组件data:&amp;#123;    //对象形式&amp;#125;//子组件data:function()&amp;#123;  return &amp;#123;       //函数形式     &amp;#125;&amp;#125; 2.引用子组件遵循引入组件 components里定义使用 如果有通信，需要在子组件的props注册 以下实例全部使">
   
   
     <link rel="icon" href="http://i2.bvimg.com/1949/75e7078cacf7709a.png">
@@ -151,36 +153,68 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-Vue2-0之组件通信" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/08/17/Vue2-0之组件通信/" class="archive-article-date">
-  	<time datetime="2017-08-17T15:47:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-17</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/08/17/Vue2-0之组件通信/">Vue2.0之组件通信</a>
+    <h1 class="article-title" itemprop="name">
+      Vue2.0之组件通信
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2017/08/17/Vue2-0之组件通信/" class="archive-article-date">
+  	<time datetime="2017-08-17T15:47:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-17</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="1-父组件的data写法与子组件的data写法不同"><a href="#1-父组件的data写法与子组件的data写法不同" class="headerlink" title="1.父组件的data写法与子组件的data写法不同"></a>1.父组件的data写法与子组件的data写法不同</h2><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//父组件</span></div><div class="line">data:&#123;</div><div class="line">    <span class="comment">//对象形式</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//子组件</span></div><div class="line">data:<span class="function"><span class="keyword">function</span><span class="params">()</span></span>&#123;</div><div class="line">  <span class="keyword">return</span> &#123;</div><div class="line">       <span class="comment">//函数形式  </span></div><div class="line">   &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="2-引用子组件遵循"><a href="#2-引用子组件遵循" class="headerlink" title="2.引用子组件遵循"></a>2.引用子组件遵循</h2><p>引入组件 components里定义使用 如果有通信，需要在子组件的props注册 以下实例全部使用以下模板</p>
+<figure class="highlight django"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line"><span class="xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"app"</span>&gt;</span></span></div><div class="line"><span class="xml">   //父组件</span></div><div class="line"><span class="xml">    <span class="tag">&lt;<span class="name">p</span>&gt;</span></span><span class="template-variable">&#123;&#123;total&#125;&#125;</span><span class="xml"><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></div><div class="line"><span class="xml">    <span class="tag">&lt;<span class="name">mime</span> @<span class="attr">increment1</span>=<span class="string">"incrementTotal"</span> <span class="attr">ref</span>=<span class="string">"child"</span> <span class="attr">:num-a</span>=<span class="string">"total"</span> <span class="attr">num-s</span>=<span class="string">"total"</span>&gt;</span><span class="tag">&lt;/<span class="name">mime</span>&gt;</span></span></div><div class="line"><span class="xml"></span></div><div class="line"><span class="xml">    <span class="tag">&lt;<span class="name">button</span> <span class="attr">type</span>=<span class="string">"button"</span> @<span class="attr">click</span>=<span class="string">"clickref"</span>&gt;</span>调用子组件<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></div><div class="line"><span class="xml"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></div><div class="line"><span class="xml"></span></div><div class="line"><span class="xml">//子组件</span></div><div class="line"><span class="xml"><span class="tag">&lt;<span class="name">template</span> <span class="attr">id</span>=<span class="string">"myInput"</span>&gt;</span></span></div><div class="line"><span class="xml">    <span class="tag">&lt;<span class="name">button</span> @<span class="attr">click</span>=<span class="string">"add"</span>&gt;</span></span><span class="template-variable">&#123;&#123;counter&#125;&#125;</span><span class="xml"><span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></div><div class="line"><span class="xml"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span></div><div class="line"><span class="xml"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span></div><div class="line"><span class="xml">    new Vue(&#123;</span></div><div class="line"><span class="xml">        el:'#app',</span></div><div class="line"><span class="xml">        data :&#123;</span></div><div class="line"><span class="xml">            total: 0          </span></div><div class="line"><span class="xml">        &#125;,</span></div><div class="line"><span class="xml">        methods:&#123;</span></div><div class="line"><span class="xml">            incrementTotal : function()&#123;</span></div><div class="line"><span class="xml"></span></div><div class="line"><span class="xml">            &#125;,</span></div><div class="line"><span class="xml">            clickref:function()&#123;</span></div><div class="line"><span class="xml"></span></div><div class="line"><span class="xml">            &#125;</span></div><div class="line"><span class="xml">        &#125;,</span></div><div class="line"><span class="xml">        components:&#123;</span></div><div class="line"><span class="xml">            'mime' :&#123;</span></div><div class="line"><span class="xml">                template:'#myInput',</span></div><div class="line"><span class="xml">                data : function()&#123;</span></div><div class="line"><span class="xml">                    return&#123;</span></div><div class="line"><span class="xml">                        counter : 0</span></div><div class="line"><span class="xml">                    &#125;</span></div><div class="line"><span class="xml">                &#125;,</span></div><div class="line"><span class="xml">                props:['numA','numS'],</span></div><div class="line"><span class="xml">                methods:&#123;</span></div><div class="line"><span class="xml">                    add : function()&#123;</span></div><div class="line"><span class="xml"></span></div><div class="line"><span class="xml">                    &#125;</span></div><div class="line"><span class="xml">                &#125;</span></div><div class="line"><span class="xml">            &#125;</span></div><div class="line"><span class="xml">        &#125;</span></div><div class="line"><span class="xml">    &#125;);</span></div><div class="line"><span class="xml"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></div></pre></td></tr></table></figure>
+<h3 id="1-父子通信-之-静态数据"><a href="#1-父子通信-之-静态数据" class="headerlink" title="1.父子通信 之 静态数据"></a>1.父子通信 之 静态数据</h3><p>如果只是传单一的字符串</p>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;mime num-s=<span class="string">"total"</span>&gt;&lt;/mime&gt;</div><div class="line"></div><div class="line">....</div><div class="line"></div><div class="line">props:[<span class="string">'numS'</span>] <span class="comment">// numS  为字符串 total</span></div></pre></td></tr></table></figure>
+<p>这样子组件的numS一直为total。但这种太不灵活</p>
+<h3 id="2-父子通信-之-动态数据"><a href="#2-父子通信-之-动态数据" class="headerlink" title="2.父子通信 之 动态数据"></a>2.父子通信 之 动态数据</h3><p>父组件的数据将会动态传递给子组件</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&lt;input v-model=<span class="string">"total"</span>&gt;</div><div class="line">&lt;mime :num-a=<span class="string">"total"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">mime</span>&gt;</span></span></div><div class="line"></div><div class="line">....</div><div class="line"></div><div class="line"><span class="comment">//props:['numA']</span></div><div class="line"></div><div class="line">props:&#123;</div><div class="line">   numA:[ <span class="built_in">String</span> , <span class="built_in">Number</span> ]  <span class="comment">//允许字符串 数字</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这时当input输入什么，子组件的numA将会得到什么</p>
+<h3 id="3-父子通信-之-子调用父"><a href="#3-父子通信-之-子调用父" class="headerlink" title="3.父子通信 之 子调用父"></a>3.父子通信 之 子调用父</h3><figure class="highlight django"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="xml"></span><span class="template-variable">&#123;&#123;total&#125;&#125;</span><span class="xml"></span></div><div class="line"><span class="xml"><span class="tag">&lt;<span class="name">mime</span> @<span class="attr">increment</span>=<span class="string">"incrementTotal"</span>&gt;</span><span class="tag">&lt;/<span class="name">mime</span>&gt;</span></span></div><div class="line"><span class="xml"></span></div><div class="line"><span class="xml"><span class="tag">&lt;<span class="name">template</span> <span class="attr">id</span>=<span class="string">"myInput"</span>&gt;</span></span></div><div class="line"><span class="xml">    <span class="tag">&lt;<span class="name">button</span> @<span class="attr">click</span>=<span class="string">"add"</span>&gt;</span></span><span class="template-variable">&#123;&#123;counter&#125;&#125;</span><span class="xml"><span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></div><div class="line"><span class="xml"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span></div><div class="line"><span class="xml"></span></div><div class="line"><span class="xml">...</span></div><div class="line"><span class="xml"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span></div><div class="line"><span class="xml">....</span></div><div class="line"><span class="xml">data:&#123;</span></div><div class="line"><span class="xml">   tatal: 0</span></div><div class="line"><span class="xml">&#125;,</span></div><div class="line"><span class="xml">methods:&#123;</span></div><div class="line"><span class="xml">   incrementTotal:function()&#123;</span></div><div class="line"><span class="xml">       this.total +=1;</span></div><div class="line"><span class="xml">   &#125;</span></div><div class="line"><span class="xml">&#125;,</span></div><div class="line"><span class="xml">components:&#123;</span></div><div class="line"><span class="xml">   data : function()&#123;</span></div><div class="line"><span class="xml">       return:&#123;</span></div><div class="line"><span class="xml">          counter : 0</span></div><div class="line"><span class="xml">       &#125;</span></div><div class="line"><span class="xml">   &#125;,</span></div><div class="line"><span class="xml">    methods : &#123;</span></div><div class="line"><span class="xml">        add : function()&#123;</span></div><div class="line"><span class="xml">             this.counter +=1;</span></div><div class="line"><span class="xml">             this.$emit('increment'); //子组件通过 $emit触发父组件的方法 increment   还可以传参   this.$emit('increment' ,this.counter);</span></div><div class="line"><span class="xml">        &#125;</span></div><div class="line"><span class="xml">   &#125;</span></div><div class="line"><span class="xml">&#125;</span></div><div class="line"><span class="xml"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></div></pre></td></tr></table></figure>
+<p>子组件执行add –&gt; 触发$emit –&gt; 触发父组件increment –&gt; 执行 incrementTotal 方法</p>
+<h3 id="4-父子通信-之-父调用子"><a href="#4-父子通信-之-父调用子" class="headerlink" title="4.父子通信 之 父调用子"></a>4.父子通信 之 父调用子</h3><figure class="highlight django"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="xml"><span class="tag">&lt;<span class="name">mime</span> <span class="attr">ref</span>=<span class="string">"child"</span>&gt;</span><span class="tag">&lt;/<span class="name">mime</span>&gt;</span></span></div><div class="line"><span class="xml"><span class="tag">&lt;<span class="name">button</span> <span class="attr">type</span>=<span class="string">"button"</span> @<span class="attr">click</span>=<span class="string">"clickref"</span>&gt;</span>调用子组件<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></div><div class="line"><span class="xml"></span></div><div class="line"><span class="xml"><span class="tag">&lt;<span class="name">template</span> <span class="attr">id</span>=<span class="string">"myInput"</span>&gt;</span></span></div><div class="line"><span class="xml">    <span class="tag">&lt;<span class="name">button</span> @<span class="attr">click</span>=<span class="string">"add"</span>&gt;</span></span><span class="template-variable">&#123;&#123;counter&#125;&#125;</span><span class="xml"><span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></div><div class="line"><span class="xml"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span></div><div class="line"><span class="xml"></span></div><div class="line"><span class="xml">...</span></div><div class="line"><span class="xml"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span></div><div class="line"><span class="xml">....</span></div><div class="line"><span class="xml"></span></div><div class="line"><span class="xml">methods:&#123;</span></div><div class="line"><span class="xml">   clickref:function()&#123;</span></div><div class="line"><span class="xml">          var child = this.$refs.child; //获取子组件实例</span></div><div class="line"><span class="xml">          child.counter = 45;           //改变子组件数据</span></div><div class="line"><span class="xml">          child.add(11);                //调用子组件方法 add</span></div><div class="line"><span class="xml">       &#125;</span></div><div class="line"><span class="xml">&#125;,</span></div><div class="line"><span class="xml">components:&#123;</span></div><div class="line"><span class="xml">   data : function()&#123;</span></div><div class="line"><span class="xml">       return:&#123;</span></div><div class="line"><span class="xml">          counter : 0</span></div><div class="line"><span class="xml">       &#125;</span></div><div class="line"><span class="xml">   &#125;,</span></div><div class="line"><span class="xml">    methods : &#123;</span></div><div class="line"><span class="xml">        add : function(num)&#123;</span></div><div class="line"><span class="xml">             this.counter +=1;</span></div><div class="line"><span class="xml">             console.log('接受父组件的值：',num) //num为11</span></div><div class="line"><span class="xml">        &#125;</span></div><div class="line"><span class="xml">   &#125;</span></div><div class="line"><span class="xml">&#125;</span></div><div class="line"><span class="xml"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></div></pre></td></tr></table></figure>
+<p>通过在子组件上引用ref,从而获得子组件实例，进行相应操作。</p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -192,106 +226,124 @@
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/08/17/Vue2-0之组件通信/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/08/06/Hexo常用命令笔记/" class="archive-article-date">
-  	<time datetime="2017-08-05T18:29:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-06</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2017/08/06/Hexo常用命令笔记/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Hexo常用命令笔记</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/08/06/Hexo常用命令笔记/">Hexo常用命令笔记</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Hexo, 指令, 主题, 博客</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/08/05/vue-router：嵌套路由的使用方法/" class="archive-article-date">
-  	<time datetime="2017-08-05T12:07:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/08/05/vue-router：嵌套路由的使用方法/">vue-router：嵌套路由的使用方法</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">vuejs2.0，vue-router</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/blog/" class="article-tag-list-link color5">blog</a>
-        		</li>
-      		
-		</ul>
-	</div>
+        
+        
+    </div>
+</aside>
 
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
+
+  
+  <div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="Vue2-0之组件通信" data-title="Vue2.0之组件通信" data-url="http://yoursite.com/2017/08/17/Vue2-0之组件通信/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
   
   
-    </div></section>
   
 
-    
+  
+
+  
 
 
           </div>
@@ -314,8 +366,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
