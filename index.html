@@ -153,6 +153,120 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Sticky-footers-布局" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/08/27/Sticky-footers-布局/">Sticky footers 布局</a>
+    </h1>
+  
+
+        
+        <a href="/2017/08/27/Sticky-footers-布局/" class="archive-article-date">
+  	<time datetime="2017-08-27T14:39:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-27</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在content的外面可以添加一个wrapper<br>这种方法就是在content的外面添加一个包裹容易，将html代码改成这样：</p>
+<pre><code>&lt;body&gt;
+    &lt;div class=&quot;wrapper&quot;&gt;
+        &lt;div class=&quot;content&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;　
+　　&lt;div class=&quot;footer&quot;&gt;&lt;/div&gt;
+&lt;/body&gt;
+</code></pre><p>然后添加以下样式：</p>
+<pre><code>html, body, .wrapper {
+     height: 100%;
+}
+body &gt; .wrapper {
+     height: auto; min-height: 100%;
+}
+.content {
+    padding-bottom: 150px; // 必须使用和footer相同的高度
+}  
+.footer {
+    position: relative;
+    margin-top: -150px; // footer高度的负值
+    height: 150px;
+    clear:both;
+}
+</code></pre><p>另外，为了保证兼容性，需要在wrapper上添加clearfix类。其代码如下：</p>
+<pre><code>&lt;body&gt;
+    &lt;div class=&quot;wrapper clearfix&quot;&gt;
+        &lt;div class=&quot;content&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;　
+　　&lt;div class=&quot;footer&quot;&gt;&lt;/div&gt;
+&lt;/body&gt;
+</code></pre><p>clearfix样式为：</p>
+<pre><code>.clearfix{
+     display: inline-block;
+}
+.clearfix:after {
+     content: &quot;.&quot;;
+     display: block;
+     height: 0;
+     clear: both;
+     visibility: hidden;
+}
+</code></pre>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">css, Sticky footers</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/08/27/Sticky-footers-布局/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-Vue2-0之组件通信" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -512,15 +626,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">css, Sticky footers</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Hexo, 指令, 主题, 博客</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">vue2.0, 组件通信</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">vuejs2.0，vue-router</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Hexo, 指令, 主题, 博客</a>
               </li>
             
             <div class="clearfix"></div>
