@@ -173,48 +173,15 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>在content的外面可以添加一个wrapper<br>这种方法就是在content的外面添加一个包裹容易，将html代码改成这样：</p>
-<pre><code>&lt;body&gt;
-    &lt;div class=&quot;wrapper&quot;&gt;
-        &lt;div class=&quot;content&quot;&gt;&lt;/div&gt;
-    &lt;/div&gt;　
-　　&lt;div class=&quot;footer&quot;&gt;&lt;/div&gt;
-&lt;/body&gt;
-</code></pre><p>然后添加以下样式：</p>
-<pre><code>html, body, .wrapper {
-     height: 100%;
-}
-body &gt; .wrapper {
-     height: auto; min-height: 100%;
-}
-.content {
-    padding-bottom: 150px; // 必须使用和footer相同的高度
-}  
-.footer {
-    position: relative;
-    margin-top: -150px; // footer高度的负值
-    height: 150px;
-    clear:both;
-}
-</code></pre><p>另外，为了保证兼容性，需要在wrapper上添加clearfix类。其代码如下：</p>
-<pre><code>&lt;body&gt;
-    &lt;div class=&quot;wrapper clearfix&quot;&gt;
-        &lt;div class=&quot;content&quot;&gt;&lt;/div&gt;
-    &lt;/div&gt;　
-　　&lt;div class=&quot;footer&quot;&gt;&lt;/div&gt;
-&lt;/body&gt;
-</code></pre><p>clearfix样式为：</p>
-<pre><code>.clearfix{
-     display: inline-block;
-}
-.clearfix:after {
-     content: &quot;.&quot;;
-     display: block;
-     height: 0;
-     clear: both;
-     visibility: hidden;
-}
-</code></pre>
+        <p>在content的外面可以添加一个wrapper 这种方法就是在content的外面添加一个包裹容器，将html代码改成这样：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"wrapper"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"content"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span>　</div><div class="line">　　<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"footer"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>然后添加以下样式：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">html</span>, <span class="selector-tag">body</span>, <span class="selector-class">.wrapper</span> &#123;</div><div class="line">     <span class="attribute">height</span>: <span class="number">100%</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-tag">body</span> &gt; <span class="selector-class">.wrapper</span> &#123;</div><div class="line">     <span class="attribute">height</span>: auto; <span class="attribute">min-height</span>: <span class="number">100%</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.content</span> &#123;</div><div class="line">    padding-bottom: 150px; // 必须使用和footer相同的高度</div><div class="line">&#125;  </div><div class="line"><span class="selector-class">.footer</span> &#123;</div><div class="line">    <span class="attribute">position</span>: relative;</div><div class="line">    margin-top: -150px; // footer高度的负值</div><div class="line">    <span class="selector-tag">height</span>: 150<span class="selector-tag">px</span>;</div><div class="line">    <span class="selector-tag">clear</span><span class="selector-pseudo">:both</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>另外，为了保证兼容性，需要在wrapper上添加clearfix类。其代码如下：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"wrapper clearfix"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"content"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span>　</div><div class="line">　　<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"footer"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>clearfix样式为：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.clearfix</span>&#123;</div><div class="line">     <span class="attribute">display</span>: inline-block;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.clearfix</span><span class="selector-pseudo">:after</span> &#123;</div><div class="line">     <span class="attribute">content</span>: <span class="string">"."</span>;</div><div class="line">     <span class="attribute">display</span>: block;</div><div class="line">     <span class="attribute">height</span>: <span class="number">0</span>;</div><div class="line">     <span class="attribute">clear</span>: both;</div><div class="line">     <span class="attribute">visibility</span>: hidden;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
       
 
       
@@ -626,11 +593,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">css, Sticky footers</a>
+                <a href="javascript:void(0)" class="js-tag color2">Hexo, 指令, 主题, 博客</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Hexo, 指令, 主题, 博客</a>
+                <a href="javascript:void(0)" class="js-tag color5">css, Sticky footers</a>
               </li>
              
               <li class="article-tag-list-item">
