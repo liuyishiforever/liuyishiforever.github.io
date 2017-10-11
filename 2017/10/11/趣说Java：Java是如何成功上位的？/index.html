@@ -21,7 +21,7 @@
 <meta property="og:image" content="http://mmbiz.qpic.cn/mmbiz_png/KyXfCrME6UKGpr87POKcfnv0dbpmIvZlttqrYYKiaTM7e83icMXDDCPNU465pcUUE4eXVqs7Ye5yC4w2ZzqNiaDWQ/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1">
 <meta property="og:image" content="http://mmbiz.qpic.cn/mmbiz_png/KyXfCrME6UKGpr87POKcfnv0dbpmIvZlS756BgzbnYuNIHjIeZD5RKyhKbmCcPNt7AuN530PYIxBFYFQkZ3S5Q/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1">
 <meta property="og:image" content="http://mmbiz.qpic.cn/mmbiz_png/KyXfCrME6UKGpr87POKcfnv0dbpmIvZlFy6nHtcRebs01kydnxmrqxuvSjpneJkLYzS7cxvuR8GMmC5HJyr7xw/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1">
-<meta property="og:updated_time" content="2017-10-11T15:54:03.000Z">
+<meta property="og:updated_time" content="2017-10-11T15:57:40.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="趣说Java：Java是如何成功上位的？">
 <meta name="twitter:description" content="XML大臣最近这几年，XML大臣的宅邸车水马龙，像什么Spring, Hibernate, MyBatis 等大大小小的官员进京来都要拜访一下，无数的冰敬碳敬悄悄地送入府中， 真可谓红极一时， 正处于人生巅峰。 原因很简单，Java帝国的配置文件几乎都在使用XML, 自然都归XML大臣管理，想不红都难！其他大臣看在眼里，恨在心里，他们决定联合起来，坚决打击XML大臣的嚣张气焰， 坚决把白花花的银子">
@@ -200,7 +200,7 @@
 <p>安翰林早有准备：“大人请看，我可以在运行时通过反射的方式取出把方法的注解，如果这个注解是@Test， 并且没有被ignore ， 那就可以通过反射去执行这个方法了， 是不是很简单？”</p>
 <p><img src="http://mmbiz.qpic.cn/mmbiz_png/KyXfCrME6UKGpr87POKcfnv0dbpmIvZlttqrYYKiaTM7e83icMXDDCPNU465pcUUE4eXVqs7Ye5yC4w2ZzqNiaDWQ/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1"></p>
 <p>IO大臣微微点了点头，表示赞同，接着便闭目陷入了沉思： 这个东西有点意思，在一个方法上添加了简单的修饰性注解@Test以后，这个方法突然间就有了额外的语义，变成了可以执行的测试用例了 !</p>
-<p>如果是XML老头儿， 该怎么描述类似的行为呢？  也许得这样：</p>
+<p>如果是XML老头儿， 该怎么描述类似的行为呢？也许得这样：</p>
 <p><img src="http://mmbiz.qpic.cn/mmbiz_png/KyXfCrME6UKGpr87POKcfnv0dbpmIvZlS756BgzbnYuNIHjIeZD5RKyhKbmCcPNt7AuN530PYIxBFYFQkZ3S5Q/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1"></p>
 <p>相比于简洁的@Test注解，这个方式实在是太复杂了， 更重要的是每次增加新的方法，除了修改Java文件之外，还得记着修改这个XML文件， 实在是繁琐。</p>
 <p>嗯， 看来这个注解确实是个杀手锏， 要谨慎使用，一击必中。</p>
@@ -221,7 +221,7 @@
 <p>“两位爱卿，依朕之意，还是先在JDK中加入自定义注解的支持，至于是用注解还是用XML， 还是让朕的子民们去选择吧！  ”</p>
 <p>看到皇上主意已定， 两位大臣只好退下。</p>
 <p>自定义注解发布了， 令大家没有想到的是，无论是注解还是XML配置都没有占据垄断地位，很多人把二者混合起来使用了！  对于一些需要集中配置的场合，例如数据源的配置， 自然是用XML。 另外一方面对于@Controller, @RequestMapping, @Transactional 这样的注解 ， 大家更喜欢和Java方法写在一起，显得简单而直观。</p>
-<p>这正如朝中的局势，没人能够一家独大，XML大臣虽然丢失了一些领地，但依然是不可忽视的力量。 一场争斗，唯一的大赢家可能就是安翰林了，他被任命为Annotation大臣，专门管理自定义的注解。 </p>
+<p>这正如朝中的局势，没人能够一家独大，XML大臣虽然丢失了一些领地，但依然是不可忽视的力量。 一场争斗，唯一的大赢家可能就是安翰林了，他被任命为Annotation大臣，专门管理自定义的注解。</p>
 
       
 
@@ -472,6 +472,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Hexo, 指令, 主题, 博客</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">css, Sticky footers</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">css, 命名, 规范</a>
               </li>
              
@@ -480,15 +488,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Hexo, 指令, 主题, 博客</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">vuejs2.0，vue-router</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">css, Sticky footers</a>
               </li>
              
               <li class="article-tag-list-item">
