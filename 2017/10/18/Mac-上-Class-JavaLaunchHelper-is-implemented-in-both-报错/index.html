@@ -8,18 +8,18 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>Mac 上 Class JavaLaunchHelper is implemented in both 报错 | Zhiping&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="问题昨晚在Mac上装了Intellij Idea，随手用IJ带的Java工程模板创建了一个测试工程，控制台报了如下一个Error。意思是这个JavaLaunchHelper类被实现了两次。无奈之下搜索了万能的Stack Overflow，找到了解决方案。 1Class JavaLaunchHelper is implemented in both /Library/Java/JavaVirtual">
+  <meta name="description" content="问题昨晚在Mac上装了Intellij Idea，随手用IJ带的Java工程模板创建了一个测试工程，控制台报了如下一个Error。意思是这个JavaLaunchHelper类被实现了两次。无奈之下搜索了万能的Stack Overflow，找到了解决方案。  Class JavaLaunchHelper is implemented in both /Library/Java/JavaVirtual">
 <meta name="keywords" content="Intellij Idea, Mac, 开发工具, IDE">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Mac 上 Class JavaLaunchHelper is implemented in both 报错">
 <meta property="og:url" content="http://yoursite.com/2017/10/18/Mac-上-Class-JavaLaunchHelper-is-implemented-in-both-报错/index.html">
 <meta property="og:site_name" content="Zhiping&#39;s Blog">
-<meta property="og:description" content="问题昨晚在Mac上装了Intellij Idea，随手用IJ带的Java工程模板创建了一个测试工程，控制台报了如下一个Error。意思是这个JavaLaunchHelper类被实现了两次。无奈之下搜索了万能的Stack Overflow，找到了解决方案。 1Class JavaLaunchHelper is implemented in both /Library/Java/JavaVirtual">
+<meta property="og:description" content="问题昨晚在Mac上装了Intellij Idea，随手用IJ带的Java工程模板创建了一个测试工程，控制台报了如下一个Error。意思是这个JavaLaunchHelper类被实现了两次。无奈之下搜索了万能的Stack Overflow，找到了解决方案。  Class JavaLaunchHelper is implemented in both /Library/Java/JavaVirtual">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2017-10-18T13:02:31.082Z">
+<meta property="og:updated_time" content="2017-10-18T13:06:53.109Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Mac 上 Class JavaLaunchHelper is implemented in both 报错">
-<meta name="twitter:description" content="问题昨晚在Mac上装了Intellij Idea，随手用IJ带的Java工程模板创建了一个测试工程，控制台报了如下一个Error。意思是这个JavaLaunchHelper类被实现了两次。无奈之下搜索了万能的Stack Overflow，找到了解决方案。 1Class JavaLaunchHelper is implemented in both /Library/Java/JavaVirtual">
+<meta name="twitter:description" content="问题昨晚在Mac上装了Intellij Idea，随手用IJ带的Java工程模板创建了一个测试工程，控制台报了如下一个Error。意思是这个JavaLaunchHelper类被实现了两次。无奈之下搜索了万能的Stack Overflow，找到了解决方案。  Class JavaLaunchHelper is implemented in both /Library/Java/JavaVirtual">
   
   
   <link rel="stylesheet" type="text/css" href="/./main.266c1c.css">
@@ -172,11 +172,16 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><p>昨晚在Mac上装了Intellij Idea，随手用IJ带的Java工程模板创建了一个测试工程，控制台报了如下一个Error。意思是这个JavaLaunchHelper类被实现了两次。无奈之下搜索了万能的Stack Overflow，找到了解决方案。</p>
-<figure class="highlight crystal"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Class JavaLaunchHelper is implemented in both /Library/Java/JavaVirtualMachines/jdk1.<span class="number">8.0_121</span>.jdk/Contents/Home/bin/java (<span class="number">0x10d19c4c0</span>) and /Library/Java/JavaVirtualMachines/jdk1.<span class="number">8.0_121</span>.jdk/Contents/Home/jre/<span class="class"><span class="keyword">lib</span>/<span class="title">libinstrument</span>.<span class="title">dylib</span>(0<span class="title">x10ea194e0</span>). <span class="title">One</span> <span class="title">of</span> <span class="title">the</span> <span class="title">two</span> <span class="title">will</span> <span class="title">be</span> <span class="title">used</span>. <span class="title">Which</span> <span class="title">one</span> <span class="title">is</span> <span class="title">undefined</span>.</span></div></pre></td></tr></table></figure>
-<h3 id="引用高票回答如下"><a href="#引用高票回答如下" class="headerlink" title="引用高票回答如下:"></a>引用高票回答如下:</h3><figure class="highlight applescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">You can find all <span class="keyword">the</span> details here:</div><div class="line">IDEA<span class="number">-170117</span> “objc: Class JavaLaunchHelper <span class="keyword">is</span> implemented <span class="keyword">in</span> both …” warning <span class="keyword">in</span> Run consoles</div><div class="line">It’s <span class="keyword">the</span> old bug <span class="keyword">in</span> Java <span class="keyword">on</span> Mac <span class="keyword">that</span> got triggered <span class="keyword">by</span> <span class="keyword">the</span> Java Agent being used <span class="keyword">by</span> <span class="keyword">the</span> IDE when starting <span class="keyword">the</span> app. This message <span class="keyword">is</span> harmless <span class="keyword">and</span> <span class="keyword">is</span> safe <span class="keyword">to</span> ignore. Oracle developer’s comment:</div><div class="line"></div><div class="line">The message <span class="keyword">is</span> benign, there <span class="keyword">is</span> no negative impact <span class="keyword">from</span> this problem <span class="keyword">since</span> both copies <span class="keyword">of</span> <span class="keyword">that</span> <span class="built_in">class</span> are identical (compiled <span class="keyword">from</span> <span class="keyword">the</span> exact same source). It <span class="keyword">is</span> purely a cosmetic issue.</div><div class="line">The problem <span class="keyword">is</span> fixed <span class="keyword">in</span> Java <span class="number">9</span> <span class="keyword">and</span> <span class="keyword">in</span> Java <span class="number">8</span> update <span class="number">152.</span></div><div class="line"></div><div class="line">If <span class="keyword">it</span> annoys you <span class="keyword">or</span> affects your apps <span class="keyword">in</span> any way, <span class="keyword">the</span> workaround <span class="keyword">for</span> IntelliJ IDEA <span class="keyword">is</span> <span class="keyword">to</span> disable idea_rt launcher agent <span class="keyword">by</span> adding idea.no.launcher=<span class="literal">true</span> <span class="keyword">into</span> idea.properties (Help | Edit Custom Properties...).</div></pre></td></tr></table></figure>
+<blockquote>
+<p>Class JavaLaunchHelper is implemented in both /Library/Java/JavaVirtualMachines/jdk1.8.0_121.jdk/Contents/Home/bin/java (0x10d19c4c0) and /Library/Java/JavaVirtualMachines/jdk1.8.0_121.jdk/Contents/Home/jre/lib/libinstrument.dylib(0x10ea194e0). One of the two will be used. Which one is undefined.</p>
+</blockquote>
+<h3 id="引用高票回答如下"><a href="#引用高票回答如下" class="headerlink" title="引用高票回答如下:"></a>引用高票回答如下:</h3><blockquote>
+<p>You can find all the details here:<br>IDEA-170117 “objc: Class JavaLaunchHelper is implemented in both …” warning in Run consoles<br>It’s the old bug in Java on Mac that got triggered by the Java Agent being used by the IDE when starting the app. This message is harmless and is safe to ignore. Oracle developer’s comment:<br>The message is benign, there is no negative impact from this problem since both copies of that class are identical (compiled from the exact same source). It is purely a cosmetic issue.<br>The problem is fixed in Java 9 and in Java 8 update 152.<br>If it annoys you or affects your apps in any way, the workaround for IntelliJ IDEA is to disable idea_rt launcher agent by adding idea.no.launcher=true into idea.properties (Help | Edit Custom Properties…).</p>
+</blockquote>
 <p>这位外国码友清楚地解释了这个Error的原因，大概意思是说这是Mac上面Java的一个老Bug了，会在那些使用了Java Agent的IDE上运行应用时触发，但这个Error对程序是无影响的，可以无视。</p>
 <h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案:"></a>解决方案:</h3><p>点击IJ最上面菜单的Help-Edit Custom Properties，没有这个properties文件的话，IJ会提示创建，然后在里面加上</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">idea.no.launcher=<span class="keyword">true</span></div></pre></td></tr></table></figure>
+<p><code>Java
+idea.no.launcher=true</code></p>
 
       
 
@@ -411,19 +416,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Intellij Idea, Mac, 开发工具, IDE</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">css, 命名, 规范</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">css, Sticky footers</a>
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Intellij Idea, Mac, 开发工具, IDE</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">vue2.0, 组件通信</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">css, 命名, 规范</a>
               </li>
              
               <li class="article-tag-list-item">
