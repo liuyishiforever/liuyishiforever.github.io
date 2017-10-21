@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="Zhiping&#39;s Blog">
 <meta property="og:description" content="问题昨晚在Mac上装了Intellij Idea，随手用IJ带的Java工程模板创建了一个测试工程，控制台报了如下一个Error。意思是这个JavaLaunchHelper类被实现了两次。无奈之下搜索了万能的Stack Overflow，找到了解决方案。  Class JavaLaunchHelper is implemented in both /Library/Java/JavaVirtual">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2017-10-18T13:06:53.109Z">
+<meta property="og:updated_time" content="2017-10-18T13:11:47.692Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Mac 上 Class JavaLaunchHelper is implemented in both 报错">
 <meta name="twitter:description" content="问题昨晚在Mac上装了Intellij Idea，随手用IJ带的Java工程模板创建了一个测试工程，控制台报了如下一个Error。意思是这个JavaLaunchHelper类被实现了两次。无奈之下搜索了万能的Stack Overflow，找到了解决方案。  Class JavaLaunchHelper is implemented in both /Library/Java/JavaVirtual">
@@ -180,8 +180,7 @@
 </blockquote>
 <p>这位外国码友清楚地解释了这个Error的原因，大概意思是说这是Mac上面Java的一个老Bug了，会在那些使用了Java Agent的IDE上运行应用时触发，但这个Error对程序是无影响的，可以无视。</p>
 <h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案:"></a>解决方案:</h3><p>点击IJ最上面菜单的Help-Edit Custom Properties，没有这个properties文件的话，IJ会提示创建，然后在里面加上</p>
-<p><code>Java
-idea.no.launcher=true</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">idea.no.launcher=<span class="keyword">true</span></div></pre></td></tr></table></figure>
 
       
 
@@ -285,6 +284,15 @@ idea.no.launcher=true</code></p>
 
   
 <nav id="article-nav">
+  
+    <a href="/2017/10/21/Eclipse中包管理面板字体大小修改/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Eclipse中包管理面板字体大小修改
+        
+      </div>
+    </a>
   
   
     <a href="/2017/10/11/趣说Java：Java是如何成功上位的？/" id="article-nav-older" class="article-nav-link-wrap">
@@ -412,6 +420,18 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Eclipse, 开发工具, 字体</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Intellij Idea, Mac, 开发工具, IDE</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">css, 命名, 规范</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Hexo, 指令, 主题, 博客</a>
               </li>
              
@@ -420,15 +440,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Intellij Idea, Mac, 开发工具, IDE</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">vue2.0, 组件通信</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">css, 命名, 规范</a>
+                <a href="javascript:void(0)" class="js-tag color5">趣说Java, Java注解, @Override, IO</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -436,7 +448,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">趣说Java, Java注解, @Override, IO</a>
+                <a href="javascript:void(0)" class="js-tag color3">vue2.0, 组件通信</a>
               </li>
             
             <div class="clearfix"></div>

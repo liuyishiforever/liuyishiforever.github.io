@@ -6,20 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Vue2.0之组件通信 | Zhiping&#39;s Blog</title>
+  <title>Eclipse中包管理面板字体大小修改 | Zhiping&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1.父组件的data写法与子组件的data写法不同1234567891011//父组件data:&amp;#123;    //对象形式&amp;#125;//子组件data:function()&amp;#123;  return &amp;#123;       //函数形式     &amp;#125;&amp;#125; 2.引用子组件遵循引入组件 components里定义使用 如果有通信，需要在子组件的props注册 以下实例全部使">
-<meta name="keywords" content="vue2.0, 组件通信">
+  <meta name="description" content="在mac下左侧的包管理面板字体非常小，需要在Eclipse的主题文件中修改css。方法如下： /Applications/Eclipse.app/Contents/Eclipse/plugins/org.eclipse.ui.themes_1.2.1.v20170809-1435/css/e4_default_mac.css tips：不同的主题和系统对应不同的css文件 添加样式如下： 1234">
+<meta name="keywords" content="Eclipse, 开发工具, 字体">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Vue2.0之组件通信">
-<meta property="og:url" content="http://yoursite.com/2017/08/17/Vue2-0之组件通信/index.html">
+<meta property="og:title" content="Eclipse中包管理面板字体大小修改">
+<meta property="og:url" content="http://yoursite.com/2017/10/21/Eclipse中包管理面板字体大小修改/index.html">
 <meta property="og:site_name" content="Zhiping&#39;s Blog">
-<meta property="og:description" content="1.父组件的data写法与子组件的data写法不同1234567891011//父组件data:&amp;#123;    //对象形式&amp;#125;//子组件data:function()&amp;#123;  return &amp;#123;       //函数形式     &amp;#125;&amp;#125; 2.引用子组件遵循引入组件 components里定义使用 如果有通信，需要在子组件的props注册 以下实例全部使">
+<meta property="og:description" content="在mac下左侧的包管理面板字体非常小，需要在Eclipse的主题文件中修改css。方法如下： /Applications/Eclipse.app/Contents/Eclipse/plugins/org.eclipse.ui.themes_1.2.1.v20170809-1435/css/e4_default_mac.css tips：不同的主题和系统对应不同的css文件 添加样式如下： 1234">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2017-08-17T15:52:48.000Z">
+<meta property="og:updated_time" content="2017-10-21T09:58:23.637Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Vue2.0之组件通信">
-<meta name="twitter:description" content="1.父组件的data写法与子组件的data写法不同1234567891011//父组件data:&amp;#123;    //对象形式&amp;#125;//子组件data:function()&amp;#123;  return &amp;#123;       //函数形式     &amp;#125;&amp;#125; 2.引用子组件遵循引入组件 components里定义使用 如果有通信，需要在子组件的props注册 以下实例全部使">
+<meta name="twitter:title" content="Eclipse中包管理面板字体大小修改">
+<meta name="twitter:description" content="在mac下左侧的包管理面板字体非常小，需要在Eclipse的主题文件中修改css。方法如下： /Applications/Eclipse.app/Contents/Eclipse/plugins/org.eclipse.ui.themes_1.2.1.v20170809-1435/css/e4_default_mac.css tips：不同的主题和系统对应不同的css文件 添加样式如下： 1234">
   
   
   <link rel="stylesheet" type="text/css" href="/./main.266c1c.css">
@@ -151,39 +151,32 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-Vue2-0之组件通信" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-Eclipse中包管理面板字体大小修改" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      Vue2.0之组件通信
+      Eclipse中包管理面板字体大小修改
     </h1>
   
 
         
-        <a href="/2017/08/17/Vue2-0之组件通信/" class="archive-article-date">
-  	<time datetime="2017-08-17T15:47:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-17</time>
+        <a href="/2017/10/21/Eclipse中包管理面板字体大小修改/" class="archive-article-date">
+  	<time datetime="2017-10-21T09:49:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-21</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="1-父组件的data写法与子组件的data写法不同"><a href="#1-父组件的data写法与子组件的data写法不同" class="headerlink" title="1.父组件的data写法与子组件的data写法不同"></a>1.父组件的data写法与子组件的data写法不同</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">//父组件</div><div class="line">data:&#123;</div><div class="line">    //对象形式</div><div class="line">&#125;</div><div class="line"></div><div class="line">//子组件</div><div class="line">data:function()&#123;</div><div class="line">  return &#123;</div><div class="line">       //函数形式  </div><div class="line">   &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="2-引用子组件遵循"><a href="#2-引用子组件遵循" class="headerlink" title="2.引用子组件遵循"></a>2.引用子组件遵循</h2><p>引入组件 components里定义使用 如果有通信，需要在子组件的props注册 以下实例全部使用以下模板</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line">&lt;div id=&quot;app&quot;&gt;</div><div class="line">   //父组件</div><div class="line">    &lt;p&gt;&#123;&#123;total&#125;&#125;&lt;/p&gt;</div><div class="line">    &lt;mime @increment1=&quot;incrementTotal&quot; ref=&quot;child&quot; :num-a=&quot;total&quot; num-s=&quot;total&quot;&gt;&lt;/mime&gt;</div><div class="line"></div><div class="line">    &lt;button type=&quot;button&quot; @click=&quot;clickref&quot;&gt;调用子组件&lt;/button&gt;</div><div class="line">&lt;/div&gt;</div><div class="line"></div><div class="line">//子组件</div><div class="line">&lt;template id=&quot;myInput&quot;&gt;</div><div class="line">    &lt;button @click=&quot;add&quot;&gt;&#123;&#123;counter&#125;&#125;&lt;/button&gt;</div><div class="line">&lt;/template&gt;</div><div class="line">&lt;script&gt;</div><div class="line">    new Vue(&#123;</div><div class="line">        el:&apos;#app&apos;,</div><div class="line">        data :&#123;</div><div class="line">            total: 0          </div><div class="line">        &#125;,</div><div class="line">        methods:&#123;</div><div class="line">            incrementTotal : function()&#123;</div><div class="line"></div><div class="line">            &#125;,</div><div class="line">            clickref:function()&#123;</div><div class="line"></div><div class="line">            &#125;</div><div class="line">        &#125;,</div><div class="line">        components:&#123;</div><div class="line">            &apos;mime&apos; :&#123;</div><div class="line">                template:&apos;#myInput&apos;,</div><div class="line">                data : function()&#123;</div><div class="line">                    return&#123;</div><div class="line">                        counter : 0</div><div class="line">                    &#125;</div><div class="line">                &#125;,</div><div class="line">                props:[&apos;numA&apos;,&apos;numS&apos;],</div><div class="line">                methods:&#123;</div><div class="line">                    add : function()&#123;</div><div class="line"></div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;);</div><div class="line">&lt;/script&gt;</div></pre></td></tr></table></figure>
-<h3 id="1-父子通信-之-静态数据"><a href="#1-父子通信-之-静态数据" class="headerlink" title="1.父子通信 之 静态数据"></a>1.父子通信 之 静态数据</h3><p>如果只是传单一的字符串</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;mime num-s=&quot;total&quot;&gt;&lt;/mime&gt;</div><div class="line"></div><div class="line">....</div><div class="line"></div><div class="line">props:[&apos;numS&apos;] // numS  为字符串 total</div></pre></td></tr></table></figure>
-<p>这样子组件的numS一直为total。但这种太不灵活</p>
-<h3 id="2-父子通信-之-动态数据"><a href="#2-父子通信-之-动态数据" class="headerlink" title="2.父子通信 之 动态数据"></a>2.父子通信 之 动态数据</h3><p>父组件的数据将会动态传递给子组件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&lt;input v-model=&quot;total&quot;&gt;</div><div class="line">&lt;mime :num-a=&quot;total&quot;&gt;&lt;/mime&gt;</div><div class="line"></div><div class="line">....</div><div class="line"></div><div class="line">//props:[&apos;numA&apos;]</div><div class="line"></div><div class="line">props:&#123;</div><div class="line">   numA:[ String , Number ]  //允许字符串 数字</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>这时当input输入什么，子组件的numA将会得到什么</p>
-<h3 id="3-父子通信-之-子调用父"><a href="#3-父子通信-之-子调用父" class="headerlink" title="3.父子通信 之 子调用父"></a>3.父子通信 之 子调用父</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">&#123;&#123;total&#125;&#125;</div><div class="line">&lt;mime @increment=&quot;incrementTotal&quot;&gt;&lt;/mime&gt;</div><div class="line"></div><div class="line">&lt;template id=&quot;myInput&quot;&gt;</div><div class="line">    &lt;button @click=&quot;add&quot;&gt;&#123;&#123;counter&#125;&#125;&lt;/button&gt;</div><div class="line">&lt;/template&gt;</div><div class="line"></div><div class="line">...</div><div class="line">&lt;script&gt;</div><div class="line">....</div><div class="line">data:&#123;</div><div class="line">   tatal: 0</div><div class="line">&#125;,</div><div class="line">methods:&#123;</div><div class="line">   incrementTotal:function()&#123;</div><div class="line">       this.total +=1;</div><div class="line">   &#125;</div><div class="line">&#125;,</div><div class="line">components:&#123;</div><div class="line">   data : function()&#123;</div><div class="line">       return:&#123;</div><div class="line">          counter : 0</div><div class="line">       &#125;</div><div class="line">   &#125;,</div><div class="line">    methods : &#123;</div><div class="line">        add : function()&#123;</div><div class="line">             this.counter +=1;</div><div class="line">             this.$emit(&apos;increment&apos;); //子组件通过 $emit触发父组件的方法 increment   还可以传参   this.$emit(&apos;increment&apos; ,this.counter);</div><div class="line">        &#125;</div><div class="line">   &#125;</div><div class="line">&#125;</div><div class="line">&lt;/script&gt;</div></pre></td></tr></table></figure>
-<p>子组件执行add –&gt; 触发$emit –&gt; 触发父组件increment –&gt; 执行 incrementTotal 方法</p>
-<h3 id="4-父子通信-之-父调用子"><a href="#4-父子通信-之-父调用子" class="headerlink" title="4.父子通信 之 父调用子"></a>4.父子通信 之 父调用子</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">&lt;mime ref=&quot;child&quot;&gt;&lt;/mime&gt;</div><div class="line">&lt;button type=&quot;button&quot; @click=&quot;clickref&quot;&gt;调用子组件&lt;/button&gt;</div><div class="line"></div><div class="line">&lt;template id=&quot;myInput&quot;&gt;</div><div class="line">    &lt;button @click=&quot;add&quot;&gt;&#123;&#123;counter&#125;&#125;&lt;/button&gt;</div><div class="line">&lt;/template&gt;</div><div class="line"></div><div class="line">...</div><div class="line">&lt;script&gt;</div><div class="line">....</div><div class="line"></div><div class="line">methods:&#123;</div><div class="line">   clickref:function()&#123;</div><div class="line">          var child = this.$refs.child; //获取子组件实例</div><div class="line">          child.counter = 45;           //改变子组件数据</div><div class="line">          child.add(11);                //调用子组件方法 add</div><div class="line">       &#125;</div><div class="line">&#125;,</div><div class="line">components:&#123;</div><div class="line">   data : function()&#123;</div><div class="line">       return:&#123;</div><div class="line">          counter : 0</div><div class="line">       &#125;</div><div class="line">   &#125;,</div><div class="line">    methods : &#123;</div><div class="line">        add : function(num)&#123;</div><div class="line">             this.counter +=1;</div><div class="line">             console.log(&apos;接受父组件的值：&apos;,num) //num为11</div><div class="line">        &#125;</div><div class="line">   &#125;</div><div class="line">&#125;</div><div class="line">&lt;/script&gt;</div></pre></td></tr></table></figure>
-<p>通过在子组件上引用ref,从而获得子组件实例，进行相应操作。</p>
+        <p>在mac下左侧的包管理面板字体非常小，需要在Eclipse的主题文件中修改css。方法如下：</p>
+<p>/Applications/Eclipse.app/Contents/Eclipse/plugins/org.eclipse.ui.themes_1.2.1.v20170809-1435/css/e4_default_mac.css</p>
+<p>tips：不同的主题和系统对应不同的css文件</p>
+<p>添加样式如下：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*liuyishi*/</span></div><div class="line"><span class="comment">/*set Package Explprer fontsize*/</span></div><div class="line"><span class="selector-tag">CTabFolder</span> <span class="selector-tag">Tree</span>&#123;</div><div class="line">    <span class="attribute">font-size</span>: <span class="number">14px</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>14px在13寸Macbook下刚好合适</p>
 
       
 
@@ -218,7 +211,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">vue2.0, 组件通信</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Eclipse, 开发工具, 字体</a>
         		</li>
       		
 		</ul>
@@ -274,7 +267,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/08/17/Vue2-0之组件通信/" alt="微信分享二维码">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/10/21/Eclipse中包管理面板字体大小修改/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -288,18 +281,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2017/08/27/Sticky-footers-布局/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          Sticky footers 布局
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/08/06/Hexo常用命令笔记/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Hexo常用命令笔记</div>
+    <a href="/2017/10/18/Mac-上-Class-JavaLaunchHelper-is-implemented-in-both-报错/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Mac 上 Class JavaLaunchHelper is implemented in both 报错</div>
       <i class="icon-circle-right"></i>
     </a>
   
