@@ -192,7 +192,8 @@
 <figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="attr">"balance"</span>: <span class="string">"0"</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>“切，没钱……”</p>
 <p>“哈哈，没钱，现在我们要跟前台说，这杯咖啡不要了”，我在纸上写到：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="attr">"deleteOrder"</span>: &#123;</div><div class="line">        <span class="attr">"orderId"</span>: <span class="string">"123456"</span></div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">“哼，这就把订单取消啦？”</div></pre></td></tr></table></figure>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="attr">"deleteOrder"</span>: &#123;</div><div class="line">        <span class="attr">"orderId"</span>: <span class="string">"123456"</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>“哼，这就把订单取消啦？”</p>
 <h4 id="Level-1-面向资源"><a href="#Level-1-面向资源" class="headerlink" title="Level 1 - 面向资源"></a>Level 1 - 面向资源</h4><p>“现在这家咖啡店越做越大，来喝咖啡的人越来越多，单靠前台显然是不行的，店主决定进行分工，每个资源都有专人负责，我们可以直接面向资源操作。”</p>
 <p>“面向资源？”</p>
 <p>“是的，比如还是下单，请求的内容不变，但是我们多了一条消息”，我在纸上画出这次的模型：</p>
@@ -200,8 +201,8 @@
 <p>“多了一个斜杠和orders？这是什么意思？”</p>
 <p>“这个表示我们这个请求是发给哪个资源的，订单是一种资源，我们可以理解为是咖啡厅专门管理订单的人，他可以帮我们处理所有有关订单的操作，包括新增订单、修改订单、取消订单等操作”</p>
 <p>“Soga…”</p>
-<p>“接着还是会返回订单的编号给我们”</p>
-<p>{<br>    “orderId”: “123456”<br>}<br>“下面，我们还是要查询会员卡余额，这次请求的资源变成了cards”<br><figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">/cards</div><div class="line"></div><div class="line">&#123;</div><div class="line">    <span class="attr">"queryBalance"</span>: &#123;</div><div class="line">        <span class="attr">"cardId"</span>: <span class="string">"886333"</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>“接着还是会返回订单的编号给我们”<br><figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="attr">"orderId"</span>: <span class="string">"123456"</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>“下面，我们还是要查询会员卡余额，这次请求的资源变成了cards”<br><figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">/cards</div><div class="line"></div><div class="line">&#123;</div><div class="line">    <span class="attr">"queryBalance"</span>: &#123;</div><div class="line">        <span class="attr">"cardId"</span>: <span class="string">"886333"</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>“接下来是取消订单”</p>
 <p>“这个我会”，说着，她抢走我手上的笔，在纸上写了起来：</p>
 <figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">/orders</div><div class="line"></div><div class="line">&#123;</div><div class="line">    <span class="attr">"deleteOrder"</span>: &#123;</div><div class="line">        <span class="attr">"orderId"</span>: <span class="string">"123456"</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
@@ -1145,15 +1146,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">css, 命名, 规范</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Eclipse, 开发工具, 字体</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Hexo, 指令, 主题, 博客</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1161,15 +1154,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">css, 命名, 规范</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Hexo, 指令, 主题, 博客</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">css, Sticky footers</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">vue2.0, 组件通信</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">vuejs2.0，vue-router</a>
+                <a href="javascript:void(0)" class="js-tag color3">趣说编程, Java注解, @Override, IO</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1177,7 +1174,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">趣说编程, Java注解, @Override, IO</a>
+                <a href="javascript:void(0)" class="js-tag color5">vuejs2.0，vue-router</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">vue2.0, 组件通信</a>
               </li>
             
             <div class="clearfix"></div>
