@@ -213,7 +213,8 @@
 <figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">POST /orders</div><div class="line"></div><div class="line">&#123;</div><div class="line">    <span class="attr">"orderName"</span>: <span class="string">"latte"</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>“请求的内容简洁多啦，不用告诉店员是addOrder，看到POST就知道是新增”，她听的很认真，理解的也很透彻。</p>
 <p>“恩恩，返回的内容还是一样”</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="attr">"orderId"</span>: <span class="string">"123456"</span></div><div class="line">&#125;</div><div class="line">“接着是查询会员卡余额，这次也简化了很多”</div></pre></td></tr></table></figure>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="attr">"orderId"</span>: <span class="string">"123456"</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>“接着是查询会员卡余额，这次也简化了很多”</p>
 <figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">GET /cards</div><div class="line"></div><div class="line">&#123;</div><div class="line">    <span class="attr">"cardId"</span>: <span class="string">"886333"</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>“这个请求我们还可以进一步优化为这样”</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">GET /cards/886333</div></pre></td></tr></table></figure>
@@ -239,12 +240,12 @@
 <p>Level0和Level1，其实都很挫，他们都只是把HTTP当做一个传输的通道，没有把HTTP当做一种传输协议。</p>
 <p>Level2，真正将HTTP作为了一种传输协议，最直观的一点就是Level2使用了HTTP动词，GET/PUT/POST/DELETE/PATCH….,这些都是HTTP的规范，规范的作用自然是重大的，用户看到一个POST请求，就知道它不是幂等的，使用时要小心，看到PUT，就知道他是幂等的，调用多几次都不会造成问题，当然，这些的前提都是API的设计者和开发者也遵循这一套规范，确保自己提供的PUT接口是幂等的。</p>
 <p>Level3，关于这一层，有一个古怪的名词，叫HATEOAS（Hypertext As The Engine Of Application State），中文翻译为“将超媒体格式作为应用状态的引擎”，核心思想就是每个资源都有它的状态，不同状态下，可对它进行的操作不一样。理解了这一层，再来看看REST的全称，Representational State Transfer，中文翻译为“表述性状态转移”，是不是好理解多了？</p>
-<p>Level3的Restful API，给使用者带来了很大的遍历，使用者只需要知道如何获取资源的入口，之后的每个URI都可以通过请求获得，无法获得就说明无法执行那个请求。</p>
+<p>Level3的Restful API，给使用者带来了很大的便利，使用者只需要知道如何获取资源的入口，之后的每个URI都可以通过请求获得，无法获得就说明无法执行那个请求。</p>
 <p>现在绝大多数的RESTful接口都做到了Level2的层次，做到Level3的比较少。当然，这个模型并不是一种规范，只是用来理解Restful的工具。所以，做到了Level2，也就是面向资源和使用Http动词，就已经很Restful了。Restful本身也不是一种规范，我比较倾向于用“风格”来形容它。如果你想深入了解Level3，可以阅读《Rest in Practice》第五章。</p>
 <p>2、</p>
 <p>我跟老婆讲的时候，用的数据格式是JSON，但是要强调一点，Restful对数据格式没有限制，就算你用的是XML或者其他格式，只要符合上面提到的几个特征，也算Restful。</p>
 <p>3、</p>
-<p>关于如何写出好的Restful API， @ruanyf 老师已经写过一篇非常棒的文章：RESTful API 设计指南，这篇文章将指导你写出优雅的Restful。</p>
+<p>关于如何写出好的Restful API， @ruanyf 老师已经写过一篇非常棒的文章： <a href="http://www.ruanyifeng.com/blog/2014/05/restful_api.html" target="_blank" rel="external"> RESTful API </a>设计指南，这篇文章将指导你写出优雅的Restful。</p>
 <p>4、</p>
 <p>我老婆长什么样子？</p>
 <p>看来是时候晒一下了：<br><img src="https://pic4.zhimg.com/v2-e2aa87020fb6a6e11a493f18f34a6cdb_r.jpg" alt=""></p>
@@ -1146,15 +1147,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Eclipse, 开发工具, 字体</a>
+                <a href="javascript:void(0)" class="js-tag color2">css, 命名, 规范</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Intellij Idea, Mac, 开发工具, IDE</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">css, 命名, 规范</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1166,15 +1163,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">趣说编程, Java注解, @Override, IO</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">RESTful, 趣说编程</a>
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Eclipse, 开发工具, 字体</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">vuejs2.0，vue-router</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">趣说编程, Java注解, @Override, IO</a>
               </li>
              
               <li class="article-tag-list-item">
