@@ -171,7 +171,8 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>传统的使用jdbc来访问数据库的流程为：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Class.forName(“com.mysql.jdbc.Driver”);</div><div class="line">String url = “jdbc:mysql:<span class="comment">//localhost:3306/test?user=root&amp;password=123456″;</span></div><div class="line">Connection con = DriverManager.getConnection(url);</div><div class="line">Statement statement = con.createStatement();</div></pre></td></tr></table></figure></p>
+        <p>toc: true</p>
+<p>传统的使用jdbc来访问数据库的流程为：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Class.forName(“com.mysql.jdbc.Driver”);</div><div class="line">String url = “jdbc:mysql:<span class="comment">//localhost:3306/test?user=root&amp;password=123456″;</span></div><div class="line">Connection con = DriverManager.getConnection(url);</div><div class="line">Statement statement = con.createStatement();</div></pre></td></tr></table></figure></p>
 <p>最开始使用的时候，不明白为什么首先要加载一个驱动类，之后就可以取得了Connection了，很好奇DriverManager是怎么获得那个驱动类的信息，后来看了下com.mysql.jdbc.Driver这个类的源代码，豁然开朗了。原来在com.mysql.jdbc.Driver类中有这么一段静态初始化代码：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">static</span> &#123;</div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">        java.sql.DriverManager.registerDriver(<span class="keyword">new</span> Driver());</div><div class="line">    &#125; <span class="keyword">catch</span> (SQLException E) &#123;</div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(“Can’t register driver!”);</div><div class="line">        &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>也就是，在Class.forName加载完驱动类，开始执行静态初始化代码时，会自动新建一个Driver的对象，并调用DriverManager.registerDriver把自己注册到DriverManager中去。</p>
@@ -1054,15 +1055,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">css, 命名, 规范</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Eclipse, 开发工具, 字体</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Hexo, 指令, 主题, 博客</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">css, 命名, 规范</a>
               </li>
              
               <li class="article-tag-list-item">
