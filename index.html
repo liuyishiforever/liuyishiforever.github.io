@@ -957,186 +957,10 @@
 
 
   
-    <article id="post-Hexo常用命令笔记" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/06/Hexo常用命令笔记/">Hexo常用命令笔记</a>
-    </h1>
-  
-
-        
-        <a href="/2017/08/06/Hexo常用命令笔记/" class="archive-article-date">
-  	<time datetime="2017-08-05T18:29:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="hexo"><a href="#hexo" class="headerlink" title="hexo"></a>hexo</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">npm install hexo -g <span class="comment">#安装  </span></div><div class="line">npm update hexo -g <span class="comment">#升级  </span></div><div class="line">hexo init <span class="comment">#初始化</span></div></pre></td></tr></table></figure>
-<h1 id="简写"><a href="#简写" class="headerlink" title="简写"></a>简写</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">hexo n <span class="string">"我的博客"</span> == hexo new <span class="string">"我的博客"</span> <span class="comment">#新建文章</span></div><div class="line">hexo p == hexo publish</div><div class="line">hexo g == hexo generate<span class="comment">#生成</span></div><div class="line">hexo s == hexo server <span class="comment">#启动服务预览</span></div><div class="line">hexo d == hexo deploy<span class="comment">#部署</span></div></pre></td></tr></table></figure>
-<h1 id="服务器"><a href="#服务器" class="headerlink" title="服务器"></a>服务器</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">hexo server <span class="comment">#Hexo 会监视文件变动并自动更新，您无须重启服务器。</span></div><div class="line">hexo server -s <span class="comment">#静态模式</span></div><div class="line">hexo server -p 5000 <span class="comment">#更改端口</span></div><div class="line">hexo server -i 192.168.1.1 <span class="comment">#自定义 IP</span></div><div class="line"></div><div class="line">hexo clean <span class="comment">#清除缓存 网页正常情况下可以忽略此条命令</span></div><div class="line">hexo g <span class="comment">#生成静态网页</span></div><div class="line">hexo d <span class="comment">#开始部署</span></div></pre></td></tr></table></figure>
-<h1 id="监视文件变动"><a href="#监视文件变动" class="headerlink" title="监视文件变动"></a>监视文件变动</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">hexo generate <span class="comment">#使用 Hexo 生成静态文件快速而且简单</span></div><div class="line">hexo generate --watch <span class="comment">#监视文件变动</span></div></pre></td></tr></table></figure>
-<h1 id="完成后部署"><a href="#完成后部署" class="headerlink" title="完成后部署"></a>完成后部署</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">两个命令的作用是相同的</div><div class="line">hexo generate --deploy</div><div class="line">hexo deploy --generate</div><div class="line">hexo deploy -g</div><div class="line">hexo server -g</div></pre></td></tr></table></figure>
-<h1 id="草稿"><a href="#草稿" class="headerlink" title="草稿"></a>草稿</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo publish [layout] &lt;title&gt;</div></pre></td></tr></table></figure>
-<h1 id="模版"><a href="#模版" class="headerlink" title="模版"></a>模版</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line">hexo new <span class="string">"postName"</span> <span class="comment">#新建文章</span></div><div class="line">hexo new page <span class="string">"pageName"</span> <span class="comment">#新建页面</span></div><div class="line">hexo generate <span class="comment">#生成静态页面至public目录</span></div><div class="line">hexo server <span class="comment">#开启预览访问端口（默认端口4000，'ctrl + c'关闭server）</span></div><div class="line">hexo deploy <span class="comment">#将.deploy目录部署到GitHub</span></div><div class="line"></div><div class="line">hexo new [layout] &lt;title&gt;</div><div class="line">hexo new photo <span class="string">"My Gallery"</span></div><div class="line">hexo new <span class="string">"Hello World"</span> --lang tw</div><div class="line"></div><div class="line">comments: <span class="literal">true</span></div><div class="line">categories: Blog</div><div class="line">tags: [Hexo]</div><div class="line">keywords: Hexo, Blog</div><div class="line">description: 生命在于折腾，又把博客折腾到Hexo了。给Hexo点赞。</div><div class="line">模版（Scaffold）</div><div class="line">hexo new photo <span class="string">"My Gallery"</span></div><div class="line"></div><div class="line"></div><div class="line">以上是文章摘要 &lt;!--more--&gt; 以下是余下全文</div><div class="line">写作</div><div class="line">hexo new page &lt;title&gt;</div><div class="line">hexo new post &lt;title&gt;</div><div class="line"></div><div class="line">变量    描述</div><div class="line">:title    标题</div><div class="line">:year    建立的年份（4 位数）</div><div class="line">:month    建立的月份（2 位数）</div><div class="line">:i_month    建立的月份（去掉开头的零）</div><div class="line">:day    建立的日期（2 位数）</div><div class="line">:i_day    建立的日期（去掉开头的零）</div><div class="line">推送到服务器上</div><div class="line">hexo n <span class="comment">#写文章</span></div><div class="line">hexo g <span class="comment">#生成</span></div><div class="line">hexo d <span class="comment">#部署 #可与hexo g合并为 hexo d -g</span></div></pre></td></tr></table></figure>
-<h1 id="报错"><a href="#报错" class="headerlink" title="报错"></a>报错</h1><h2 id="1-找不到git部署"><a href="#1-找不到git部署" class="headerlink" title="1.找不到git部署"></a>1.找不到git部署</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ERROR Deployer not found: git</div></pre></td></tr></table></figure>
-<p>解决方法 npm install hexo-deployer-git –save</p>
-<h2 id="2-部署类型设置git"><a href="#2-部署类型设置git" class="headerlink" title="2.部署类型设置git"></a>2.部署类型设置git</h2><p>hexo 3.0 部署类型不再是github，_config.yml 中修改</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># Deployment</span></div><div class="line"><span class="comment">## Docs: http://hexo.io/docs/deployment.html</span></div><div class="line">deploy:</div><div class="line">  <span class="built_in">type</span>: git</div><div class="line">  repository: git@***.github.com:***/***.github.io.git</div><div class="line">  branch: master</div></pre></td></tr></table></figure>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Hexo, 指令, 主题, 博客</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/08/06/Hexo常用命令笔记/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-vue-router：嵌套路由的使用方法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/05/vue-router：嵌套路由的使用方法/">vue-router：嵌套路由的使用方法</a>
-    </h1>
-  
-
-        
-        <a href="/2017/08/05/vue-router：嵌套路由的使用方法/" class="archive-article-date">
-  	<time datetime="2017-08-05T12:07:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-05</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="1-模板抽离"><a href="#1-模板抽离" class="headerlink" title="1.模板抽离"></a>1.模板抽离</h1><p>我们用<code>&lt;template&gt;&lt;/template&gt;</code>来定义Vue模板。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&lt;!-- 模板抽离出来 --&gt;</div><div class="line">&lt;template id=&quot;home&quot;&gt;</div><div class="line">    &lt;div&gt;首页&lt;/div&gt;</div><div class="line">&lt;/template&gt;</div><div class="line"></div><div class="line"> &lt;template id=&quot;news&quot;&gt;</div><div class="line">    &lt;div&gt;新闻&lt;/div&gt;</div><div class="line"> &lt;/template&gt;</div></pre></td></tr></table></figure>
-<p>然后js里定义路由组件的时候：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">// 定义（路由）组件。</div><div class="line">const Home = &#123; template: &apos;#home&apos; &#125;;</div><div class="line">const News = &#123; template: &apos;#news&apos; &#125;;</div></pre></td></tr></table></figure>
-<h1 id="2-路由嵌套"><a href="#2-路由嵌套" class="headerlink" title="2.路由嵌套"></a>2.路由嵌套</h1><p>实际应用界面，通常由多层嵌套的组件组合而成。 比如，我们 “首页”组件中，还嵌套着 “登录”和 “注册”组件，那么URL对应就是/home/login和/home/reg。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&lt;template id=&quot;home&quot;&gt;</div><div class="line">  &lt;!-- 注意：组件只能有一个根元素，所以我们包装到这个div中 --&gt;</div><div class="line">  &lt;div&gt;</div><div class="line">    &lt;h2&gt;首页&lt;/h2&gt;</div><div class="line">      &lt;router-link to=&quot;/home/login&quot;&gt;登录&lt;/router-link&gt;</div><div class="line">      &lt;router-link to=&quot;/home/reg&quot;&gt;注册&lt;/router-link&gt;</div><div class="line">    &lt;!-- 路由匹配到的组件将渲染在这里 --&gt;</div><div class="line">    &lt;router-view&gt;&lt;/router-view&gt;</div><div class="line">  &lt;/div&gt;</div><div class="line">&lt;/template&gt;</div></pre></td></tr></table></figure>
-<p>这是访问/home后的模板，其中我们需要把/home/login和/home/reg渲染进来。</p>
-<p>登录和注册2个组件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">  &lt;template id=&quot;login&quot;&gt;</div><div class="line">    &lt;div&gt;登录界面&lt;/div&gt;</div><div class="line">  &lt;/template&gt;</div><div class="line">  &lt;template id=&quot;reg&quot;&gt;</div><div class="line">    &lt;div&gt;注册界面&lt;/div&gt;</div><div class="line">  &lt;/template&gt;</div><div class="line">//定义路由组件</div><div class="line">const Login = &#123; template: &apos;#login&apos; &#125;;</div><div class="line">    const Reg = &#123; template: &apos;#reg&apos; &#125;;</div></pre></td></tr></table></figure>
-<h1 id="3-定义路由"><a href="#3-定义路由" class="headerlink" title="3.定义路由"></a>3.定义路由</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">// 定义路由</div><div class="line">const routes = [</div><div class="line">   &#123; path: &apos;/&apos;, redirect: &apos;/home&apos; &#125;,</div><div class="line">  &#123;</div><div class="line">    path: &apos;/home&apos;,</div><div class="line">    component: Home,</div><div class="line">    children:[</div><div class="line">      &#123; path: &apos;/home/login&apos;, component: Login&#125;,</div><div class="line">      &#123; path: &apos;/home/reg&apos;, component: Reg&#125;</div><div class="line">    ]</div><div class="line">  &#125;,</div><div class="line">  &#123; path: &apos;/news&apos;, component: News&#125;</div><div class="line">]</div></pre></td></tr></table></figure>
-<p>注意我们在home路由配置了它的children。这就是嵌套路由。</p>
-<h1 id="4-案例全部代码如下："><a href="#4-案例全部代码如下：" class="headerlink" title="4.案例全部代码如下："></a>4.案例全部代码如下：</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div></pre></td><td class="code"><pre><div class="line">&lt;!DOCTYPE html&gt;</div><div class="line">&lt;html&gt;</div><div class="line">&lt;head&gt;</div><div class="line">  &lt;title&gt;&lt;/title&gt;</div><div class="line">  &lt;meta charset=&quot;utf-8&quot;&gt;</div><div class="line">  &lt;script src=&quot;http://unpkg.com/vue/dist/vue.js&quot;&gt;&lt;/script&gt;</div><div class="line">  &lt;script src=&quot;https://unpkg.com/vue-router/dist/vue-router.js&quot;&gt;&lt;/script&gt;</div><div class="line">&lt;/head&gt;</div><div class="line">&lt;body&gt;</div><div class="line">  &lt;div id=&quot;box&quot;&gt;</div><div class="line">    &lt;p&gt;</div><div class="line">      &lt;router-link to=&quot;/home&quot;&gt;home&lt;/router-link&gt;</div><div class="line">      &lt;router-link to=&quot;/news&quot;&gt;news&lt;/router-link&gt;</div><div class="line">    &lt;/p&gt;</div><div class="line">     &lt;router-view&gt;&lt;/router-view&gt;</div><div class="line">  &lt;/div&gt;</div><div class="line"></div><div class="line">  &lt;!-- 模板抽离出来 --&gt;</div><div class="line">  &lt;template id=&quot;home&quot;&gt;</div><div class="line">    &lt;!-- 注意：组件只能有一个根元素，所以我们包装到这个div中 --&gt;</div><div class="line">    &lt;div&gt;</div><div class="line">      &lt;h2&gt;首页&lt;/h2&gt;</div><div class="line">       &lt;router-link to=&quot;/home/login&quot;&gt;登录&lt;/router-link&gt;</div><div class="line">      &lt;router-link to=&quot;/home/reg&quot;&gt;注册&lt;/router-link&gt;</div><div class="line">      &lt;!-- 路由匹配到的组件将渲染在这里 --&gt;</div><div class="line">      &lt;router-view&gt;&lt;/router-view&gt;</div><div class="line">    &lt;/div&gt;</div><div class="line">  &lt;/template&gt;</div><div class="line"></div><div class="line">  &lt;template id=&quot;news&quot;&gt;</div><div class="line">    &lt;div&gt;新闻&lt;/div&gt;</div><div class="line">  &lt;/template&gt;</div><div class="line"></div><div class="line">  &lt;template id=&quot;login&quot;&gt;</div><div class="line">    &lt;div&gt;登录界面&lt;/div&gt;</div><div class="line">  &lt;/template&gt;</div><div class="line">  &lt;template id=&quot;reg&quot;&gt;</div><div class="line">    &lt;div&gt;注册界面&lt;/div&gt;</div><div class="line">  &lt;/template&gt;</div><div class="line"></div><div class="line">  &lt;script type=&quot;text/javascript&quot;&gt;</div><div class="line">    // 1. 定义（路由）组件。</div><div class="line">    const Home = &#123; template: &apos;#home&apos; &#125;;</div><div class="line">    const News = &#123; template: &apos;#news&apos; &#125;;</div><div class="line"></div><div class="line">    const Login = &#123; template: &apos;#login&apos; &#125;;</div><div class="line">    const Reg = &#123; template: &apos;#reg&apos; &#125;;</div><div class="line"></div><div class="line">    // 2. 定义路由</div><div class="line">    const routes = [</div><div class="line">       &#123; path: &apos;/&apos;, redirect: &apos;/home&apos; &#125;,</div><div class="line">      &#123;</div><div class="line">        path: &apos;/home&apos;,</div><div class="line">        component: Home,</div><div class="line">        children:[</div><div class="line">          &#123; path: &apos;/home/login&apos;, component: Login&#125;,</div><div class="line">          &#123; path: &apos;/home/reg&apos;, component: Reg&#125;</div><div class="line">        ]</div><div class="line">      &#125;,</div><div class="line">      &#123; path: &apos;/news&apos;, component: News&#125;</div><div class="line">    ]</div><div class="line"></div><div class="line">    // 3. 创建 router 实例，然后传 `routes` 配置</div><div class="line">    const router = new VueRouter(&#123;</div><div class="line">      routes // （缩写）相当于 routes: routes</div><div class="line">    &#125;)</div><div class="line"></div><div class="line"></div><div class="line">    // 4. 创建和挂载根实例。</div><div class="line">    // 记得要通过 router 配置参数注入路由，</div><div class="line">    // 从而让整个应用都有路由功能</div><div class="line">    const app = new Vue(&#123;</div><div class="line">     router</div><div class="line">    &#125;).$mount(&apos;#box&apos;)</div><div class="line"></div><div class="line">    // 现在，应用已经启动了！</div><div class="line">  &lt;/script&gt;</div><div class="line">&lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">vuejs2.0，vue-router</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/blog/" class="article-tag-list-link color5">blog</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/08/05/vue-router：嵌套路由的使用方法/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
+    <nav id="page-nav">
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+    </nav>
   
 
 
@@ -1234,7 +1058,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Eclipse, 开发工具, 字体</a>
+                <a href="javascript:void(0)" class="js-tag color5">Intellij Idea, Mac, 开发工具, IDE</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1242,7 +1066,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Intellij Idea, Mac, 开发工具, IDE</a>
+                <a href="javascript:void(0)" class="js-tag color3">Eclipse, 开发工具, 字体</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">vuejs2.0，vue-router</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1254,15 +1082,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">vuejs2.0，vue-router</a>
+                <a href="javascript:void(0)" class="js-tag color4">RESTful, 趣说编程</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">JDBC, Class.forName, com.mysql.jdbc.Driver</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">RESTful, 趣说编程</a>
               </li>
              
               <li class="article-tag-list-item">
