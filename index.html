@@ -151,6 +151,121 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-关于DBUtils中QueryRunner的一些解读" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/11/10/关于DBUtils中QueryRunner的一些解读/">关于DBUtils中QueryRunner的一些解读</a>
+    </h1>
+  
+
+        
+        <a href="/2017/11/10/关于DBUtils中QueryRunner的一些解读/" class="archive-article-date">
+  	<time datetime="2017-11-10T01:50:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-10</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>我们在工作学习中, DBUtils使用的非常多, 但是都只停留在会用API的程度上, 不求甚解. 所以这次特意学习源码,详细探究一下详细说下QueryRunner的一些内部实现.<br>写的有错误的地方还恳请大家指出.</p>
+</blockquote>
+<p>QueryRunner类</p>
+<p>QueryRunner中提供对sql语句操作的API,它主要有三个方法:</p>
+<ul>
+<li>query() 用于执行select</li>
+<li>update() 用于执行insert/update/delete</li>
+<li>batch() 批处理</li>
+</ul>
+<h4 id="Query语句"><a href="#Query语句" class="headerlink" title="Query语句"></a>Query语句</h4><p>先来看下query的两种形式, 我们这里主要讲第一个方法, 因为我们用C3P0来统一管理connection.(QueryRunner qr = new QueryRunner(C3P0Utils.getDataSource()))<br>query(sql,ResultSetHandler,Object…params);<br>query(conn,sql,ResultSetHandler,Object…params);</p>
+<ul>
+<li>第一种: 不需要params</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//查询所有图书</span></div><div class="line"><span class="function"><span class="keyword">public</span> List&lt;Book&gt; <span class="title">selectAllBooks</span><span class="params">()</span> <span class="keyword">throws</span> SQLException </span>&#123;</div><div class="line">    QueryRunner qr = <span class="keyword">new</span> QueryRunner(C3P0Utils.getDataSource());</div><div class="line">    <span class="keyword">return</span> qr.query(<span class="string">"select * from books"</span>, <span class="keyword">new</span> BeanListHandler&lt;Book&gt;(Book.class));</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>第二种: 需要一个参数查询<br>//多条件查询图书信息</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> List&lt;Book&gt; <span class="title">findBookByManyCondition</span><span class="params">(String id, String category,</span></span></div><div class="line"><span class="function"><span class="params">        String name, String minprice, String maxprice)</span> <span class="keyword">throws</span> SQLException </span>&#123;</div><div class="line">    StringBuilder sql = <span class="keyword">new</span> StringBuilder(<span class="string">"select * from books where 1=1"</span>);</div><div class="line">    List list = <span class="keyword">new</span> ArrayList();</div><div class="line">    <span class="keyword">if</span>(!<span class="string">""</span>.equals(id))&#123;</div><div class="line">        sql.append(<span class="string">" and id like ?"</span>);</div><div class="line">        list.add(<span class="string">"%"</span>+id+<span class="string">"%"</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span>(!<span class="string">""</span>.equals(category))&#123;</div><div class="line">        sql.append(<span class="string">" and category=?"</span>);</div><div class="line">        list.add(category);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span>(!<span class="string">""</span>.equals(name))&#123;</div><div class="line">        sql.append(<span class="string">" and name like ?"</span>);</div><div class="line">        list.add(<span class="string">"%"</span>+name+<span class="string">"%"</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span>(!<span class="string">""</span>.equals(minprice))&#123;</div><div class="line">        sql.append(<span class="string">" and price &gt; ?"</span>);</div><div class="line">        list.add(minprice);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span>(!<span class="string">""</span>.equals(maxprice))&#123;</div><div class="line">        sql.append(<span class="string">" and price &lt; ?"</span>);</div><div class="line">        list.add(maxprice);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    QueryRunner qr = <span class="keyword">new</span> QueryRunner(C3P0Utils.getDataSource());</div><div class="line">    <span class="keyword">return</span> qr.query(sql.toString(),<span class="keyword">new</span> BeanListHandler&lt;Book&gt;(Book.class),list.toArray());</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>那么我们来看下源码的实现:</p>
+<ul>
+<li>QueryRunner.java</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//第一种情况,无参数</span></div><div class="line"><span class="keyword">public</span> &lt;T&gt; <span class="function">T <span class="title">query</span><span class="params">(String sql, ResultSetHandler&lt;T&gt; rsh)</span> <span class="keyword">throws</span> SQLException </span>&#123;</div><div class="line">    Connection conn = <span class="keyword">this</span>.prepareConnection();</div><div class="line"></div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.query(conn, <span class="keyword">true</span>, sql, rsh, (Object[]) <span class="keyword">null</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//第二种和第三种使用同一方法: 需要参数</span></div><div class="line"><span class="keyword">public</span> &lt;T&gt; <span class="function">T <span class="title">query</span><span class="params">(String sql, ResultSetHandler&lt;T&gt; rsh, Object... params)</span> <span class="keyword">throws</span> SQLException </span>&#123;</div><div class="line">    Connection conn = <span class="keyword">this</span>.prepareConnection();</div><div class="line"></div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.query(conn, <span class="keyword">true</span>, sql, rsh, params);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>解读: 这里先是获取connection, 利用this.preparaConnection() 获取. 然后调用query()方法去执行查询语句. 接下来看源码是如何获取到当前传输过来的connection以及query()方法的内部实现.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">protected</span> Connection <span class="title">prepareConnection</span><span class="params">()</span> <span class="keyword">throws</span> SQLException </span>&#123;</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.getDataSource() == <span class="keyword">null</span>) &#123;</div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> SQLException(<span class="string">"QueryRunner requires a DataSource to be "</span> +</div><div class="line">            <span class="string">"invoked in this way, or a Connection should be passed in"</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.getDataSource().getConnection();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这里很简单, 因为我们用的C3P0数据库连接池获取的DataSource, 所以这里直就可以过去到当前的Connection.接下来就看下query()方法的内部实现.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> &lt;T&gt; <span class="function">T <span class="title">query</span><span class="params">(Connection conn, <span class="keyword">boolean</span> closeConn, String sql, ResultSetHandler&lt;T&gt; rsh, Object... params)</span></span></div><div class="line"><span class="function">            <span class="keyword">throws</span> SQLException </span>&#123;</div><div class="line">    <span class="keyword">if</span> (conn == <span class="keyword">null</span>) &#123;</div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> SQLException(<span class="string">"Null connection"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (sql == <span class="keyword">null</span>) &#123;</div><div class="line">        <span class="keyword">if</span> (closeConn) &#123;</div><div class="line">            close(conn);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> SQLException(<span class="string">"Null SQL statement"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (rsh == <span class="keyword">null</span>) &#123;</div><div class="line">        <span class="keyword">if</span> (closeConn) &#123;</div><div class="line">            close(conn);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> SQLException(<span class="string">"Null ResultSetHandler"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    PreparedStatement stmt = <span class="keyword">null</span>;</div><div class="line">    ResultSet rs = <span class="keyword">null</span>;</div><div class="line">    T result = <span class="keyword">null</span>;</div><div class="line"></div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">        stmt = <span class="keyword">this</span>.prepareStatement(conn, sql);</div><div class="line">        <span class="keyword">this</span>.fillStatement(stmt, params);</div><div class="line">        rs = <span class="keyword">this</span>.wrap(stmt.executeQuery());</div><div class="line">        result = rsh.handle(rs);</div><div class="line"></div><div class="line">    &#125; <span class="keyword">catch</span> (SQLException e) &#123;</div><div class="line">        <span class="keyword">this</span>.rethrow(e, sql, params);</div><div class="line"></div><div class="line">    &#125; <span class="keyword">finally</span> &#123;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            close(rs);</div><div class="line">        &#125; <span class="keyword">finally</span> &#123;</div><div class="line">            close(stmt);</div><div class="line">            <span class="keyword">if</span> (closeConn) &#123;</div><div class="line">                close(conn);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> result;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>解读: 在这里可以看出, 无论是否有传递参数params, 都调用的是同一个query方法, 接着来看this.fillStatement(stmt, params);是如何将参数赋予preparedStatement中的.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">fillStatement</span><span class="params">(PreparedStatement stmt, Object... params)</span> <span class="keyword">throws</span> SQLException </span>&#123;</div><div class="line"></div><div class="line">    <span class="comment">// check the parameter count, if we can</span></div><div class="line">    ParameterMetaData pmd = <span class="keyword">null</span>;</div><div class="line">    <span class="keyword">if</span> (!pmdKnownBroken) &#123;</div><div class="line">        pmd = stmt.getParameterMetaData();</div><div class="line">        <span class="keyword">int</span> stmtCount = pmd.getParameterCount();</div><div class="line">        <span class="keyword">int</span> paramsCount = params == <span class="keyword">null</span> ? <span class="number">0</span> : params.length;</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (stmtCount != paramsCount) &#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> SQLException(<span class="string">"Wrong number of parameters: expected "</span></div><div class="line">                    + stmtCount + <span class="string">", was given "</span> + paramsCount);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// nothing to do here</span></div><div class="line">    <span class="keyword">if</span> (params == <span class="keyword">null</span>) &#123;</div><div class="line">        <span class="keyword">return</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; params.length; i++) &#123;</div><div class="line">        <span class="keyword">if</span> (params[i] != <span class="keyword">null</span>) &#123;</div><div class="line">            stmt.setObject(i + <span class="number">1</span>, params[i]);</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            <span class="comment">// VARCHAR works with many drivers regardless</span></div><div class="line">            <span class="comment">// of the actual column type.  Oddly, NULL and</span></div><div class="line">            <span class="comment">// OTHER don't work with Oracle's drivers.</span></div><div class="line">            <span class="keyword">int</span> sqlType = Types.VARCHAR;</div><div class="line">            <span class="keyword">if</span> (!pmdKnownBroken) &#123;</div><div class="line">                <span class="keyword">try</span> &#123;</div><div class="line">                    sqlType = pmd.getParameterType(i + <span class="number">1</span>);</div><div class="line">                &#125; <span class="keyword">catch</span> (SQLException e) &#123;</div><div class="line">                    pmdKnownBroken = <span class="keyword">true</span>;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            stmt.setNull(i + <span class="number">1</span>, sqlType);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这个方法就是核心所在:<br>第一种情况: 当params为null的时候, 直接return然后执行sql语句.<br>第二种第三种情况: 当params不为null时, 循环遍历传入的params, 然后将params赋值到preparedStatement中, 然后填充占位符进行sql查询. 这里我们也来回顾下直接使用preparedStatement来进行查询的方式.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Test</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">update</span><span class="params">()</span></span>&#123;</div><div class="line">    Connection conn = <span class="keyword">null</span>;</div><div class="line">    PreparedStatement st = <span class="keyword">null</span>;</div><div class="line">    ResultSet rs = <span class="keyword">null</span>;</div><div class="line">    <span class="keyword">try</span>&#123;</div><div class="line">        conn = JdbcUtils.getConnection();</div><div class="line">        String sql = <span class="string">"update users set name=?,email=? where id=?"</span>;</div><div class="line">        st = conn.prepareStatement(sql);</div><div class="line">        st.setString(<span class="number">1</span>, <span class="string">"gacl"</span>);</div><div class="line">        st.setString(<span class="number">2</span>, <span class="string">"gacl@sina.com"</span>);</div><div class="line">        st.setInt(<span class="number">3</span>, <span class="number">2</span>);</div><div class="line">        <span class="keyword">int</span> num = st.executeUpdate();</div><div class="line">        <span class="keyword">if</span>(num&gt;<span class="number">0</span>)&#123;</div><div class="line">            System.out.println(<span class="string">"更新成功！！"</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;<span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">        e.printStackTrace();</div><div class="line"></div><div class="line">    &#125;<span class="keyword">finally</span>&#123;</div><div class="line">        JdbcUtils.release(conn, st, rs);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="meta">@Test</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">find</span><span class="params">()</span></span>&#123;</div><div class="line">    Connection conn = <span class="keyword">null</span>;</div><div class="line">    PreparedStatement st = <span class="keyword">null</span>;</div><div class="line">    ResultSet rs = <span class="keyword">null</span>;</div><div class="line">    <span class="keyword">try</span>&#123;</div><div class="line">        conn = JdbcUtils.getConnection();</div><div class="line">        String sql = <span class="string">"select * from users where id=?"</span>;</div><div class="line">        st = conn.prepareStatement(sql);</div><div class="line">        st.setInt(<span class="number">1</span>, <span class="number">1</span>);</div><div class="line">        rs = st.executeQuery();</div><div class="line">        <span class="keyword">if</span>(rs.next())&#123;</div><div class="line">            System.out.println(rs.getString(<span class="string">"name"</span>));</div><div class="line">        &#125;</div><div class="line">    &#125;<span class="keyword">catch</span> (Exception e) &#123;</div><div class="line"></div><div class="line">    &#125;<span class="keyword">finally</span>&#123;</div><div class="line">        JdbcUtils.release(conn, st, rs);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="Update语句"><a href="#Update语句" class="headerlink" title="Update语句"></a>Update语句</h4><p>查看update语句:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//修改图书</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">updateBook</span><span class="params">(Book book)</span> <span class="keyword">throws</span> SQLException </span>&#123;</div><div class="line">    QueryRunner qr = <span class="keyword">new</span> QueryRunner(C3P0Utils.getDataSource());</div><div class="line">    qr.update(</div><div class="line">            <span class="string">"UPDATE books SET NAME=? ,price=?,bnum=?,category=?,description=? WHERE id=?"</span>,</div><div class="line">            book.getName(), book.getPrice(), book.getBnum(),</div><div class="line">            book.getCategory(), book.getDescription(), book.getId())</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>接着是QueryRunner.java中的update 方法:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">update</span><span class="params">(String sql, Object... params)</span> <span class="keyword">throws</span> SQLException </span>&#123;</div><div class="line">    Connection conn = <span class="keyword">this</span>.prepareConnection();</div><div class="line"></div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.update(conn, <span class="keyword">true</span>, sql, params);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">update</span><span class="params">(Connection conn, <span class="keyword">boolean</span> closeConn, String sql, Object... params)</span> <span class="keyword">throws</span> SQLException </span>&#123;</div><div class="line">    <span class="keyword">if</span> (conn == <span class="keyword">null</span>) &#123;</div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> SQLException(<span class="string">"Null connection"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (sql == <span class="keyword">null</span>) &#123;</div><div class="line">        <span class="keyword">if</span> (closeConn) &#123;</div><div class="line">            close(conn);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> SQLException(<span class="string">"Null SQL statement"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    PreparedStatement stmt = <span class="keyword">null</span>;</div><div class="line">    <span class="keyword">int</span> rows = <span class="number">0</span>;</div><div class="line"></div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">        stmt = <span class="keyword">this</span>.prepareStatement(conn, sql);</div><div class="line">        <span class="keyword">this</span>.fillStatement(stmt, params);</div><div class="line">        rows = stmt.executeUpdate();</div><div class="line"></div><div class="line">    &#125; <span class="keyword">catch</span> (SQLException e) &#123;</div><div class="line">        <span class="keyword">this</span>.rethrow(e, sql, params);</div><div class="line"></div><div class="line">    &#125; <span class="keyword">finally</span> &#123;</div><div class="line">        close(stmt);</div><div class="line">        <span class="keyword">if</span> (closeConn) &#123;</div><div class="line">            close(conn);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> rows;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>到了参数赋值的时候又调用了上面的fillStatement方法, 这里就不再阐述了.</p>
+<h4 id="Batch语句"><a href="#Batch语句" class="headerlink" title="Batch语句"></a>Batch语句</h4><p>这里直接看batch方法的实例, 然后结合源码的实现.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//批量删除</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">delBooks</span><span class="params">(String[] ids)</span> <span class="keyword">throws</span> SQLException </span>&#123;</div><div class="line">    QueryRunner qr = <span class="keyword">new</span> QueryRunner(C3P0Utils.getDataSource());</div><div class="line">    Object[][] params = <span class="keyword">new</span> Object[ids.length][];<span class="comment">//高维确定执行sql语句的次数，低维是给？赋值</span></div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; params.length; i++) &#123;</div><div class="line">        params[i] = <span class="keyword">new</span> Object[]&#123;ids[i]&#125;;<span class="comment">//给“？”赋值</span></div><div class="line">    &#125;</div><div class="line">    qr.batch(<span class="string">"delete from books where id=?"</span>, params);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>然后看QueryRunner中的batch()方法:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">int</span>[] batch(String sql, Object[][] params) <span class="keyword">throws</span> SQLException &#123;</div><div class="line">    Connection conn = <span class="keyword">this</span>.prepareConnection();</div><div class="line"></div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.batch(conn, <span class="keyword">true</span>, sql, params);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">private</span> <span class="keyword">int</span>[] batch(Connection conn, <span class="keyword">boolean</span> closeConn, String sql, Object[][] params) <span class="keyword">throws</span> SQLException &#123;</div><div class="line">    <span class="keyword">if</span> (conn == <span class="keyword">null</span>) &#123;</div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> SQLException(<span class="string">"Null connection"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (sql == <span class="keyword">null</span>) &#123;</div><div class="line">        <span class="keyword">if</span> (closeConn) &#123;</div><div class="line">            close(conn);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> SQLException(<span class="string">"Null SQL statement"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (params == <span class="keyword">null</span>) &#123;</div><div class="line">        <span class="keyword">if</span> (closeConn) &#123;</div><div class="line">            close(conn);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> SQLException(<span class="string">"Null parameters. If parameters aren't need, pass an empty array."</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    PreparedStatement stmt = <span class="keyword">null</span>;</div><div class="line">    <span class="keyword">int</span>[] rows = <span class="keyword">null</span>;</div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">        stmt = <span class="keyword">this</span>.prepareStatement(conn, sql);</div><div class="line"></div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; params.length; i++) &#123;</div><div class="line">            <span class="keyword">this</span>.fillStatement(stmt, params[i]);</div><div class="line">            stmt.addBatch();</div><div class="line">        &#125;</div><div class="line">        rows = stmt.executeBatch();</div><div class="line"></div><div class="line">    &#125; <span class="keyword">catch</span> (SQLException e) &#123;</div><div class="line">        <span class="keyword">this</span>.rethrow(e, sql, (Object[])params);</div><div class="line">    &#125; <span class="keyword">finally</span> &#123;</div><div class="line">        close(stmt);</div><div class="line">        <span class="keyword">if</span> (closeConn) &#123;</div><div class="line">            close(conn);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> rows;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>解读: 因为params是一个二维数组, 所以往preparedStatement中赋值的时候使用了for循环, 然后通过preparedstatement.addBatch() 进行批量添加, 然后执行executeBatch()进行操作.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment">     * Adds a set of parameters to this &lt;code&gt;PreparedStatement&lt;/code&gt;</span></div><div class="line"><span class="comment">     * object's batch of commands.</span></div><div class="line"><span class="comment">     *</span></div><div class="line"><span class="comment">     * <span class="doctag">@exception</span> SQLException if a database access error occurs or</span></div><div class="line"><span class="comment">     * this method is called on a closed &lt;code&gt;PreparedStatement&lt;/code&gt;</span></div><div class="line"><span class="comment">     * <span class="doctag">@see</span> Statement#addBatch</span></div><div class="line"><span class="comment">     * <span class="doctag">@since</span> 1.2</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">addBatch</span><span class="params">()</span> <span class="keyword">throws</span> SQLException</span>;</div></pre></td></tr></table></figure>
+<p>至此, QueryRunner类的内部实现原理大致已经明白了.</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">JavaWeb, DBUtils, QueryRunner</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/11/10/关于DBUtils中QueryRunner的一些解读/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-关于Class-forName-“com-mysql-jdbc-Driver”的理解" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -171,8 +286,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>toc: true</p>
-<p>传统的使用jdbc来访问数据库的流程为：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Class.forName(“com.mysql.jdbc.Driver”);</div><div class="line">String url = “jdbc:mysql:<span class="comment">//localhost:3306/test?user=root&amp;password=123456″;</span></div><div class="line">Connection con = DriverManager.getConnection(url);</div><div class="line">Statement statement = con.createStatement();</div></pre></td></tr></table></figure></p>
+        <p>传统的使用jdbc来访问数据库的流程为：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Class.forName(“com.mysql.jdbc.Driver”);</div><div class="line">String url = “jdbc:mysql:<span class="comment">//localhost:3306/test?user=root&amp;password=123456″;</span></div><div class="line">Connection con = DriverManager.getConnection(url);</div><div class="line">Statement statement = con.createStatement();</div></pre></td></tr></table></figure></p>
 <p>最开始使用的时候，不明白为什么首先要加载一个驱动类，之后就可以取得了Connection了，很好奇DriverManager是怎么获得那个驱动类的信息，后来看了下com.mysql.jdbc.Driver这个类的源代码，豁然开朗了。原来在com.mysql.jdbc.Driver类中有这么一段静态初始化代码：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">static</span> &#123;</div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">        java.sql.DriverManager.registerDriver(<span class="keyword">new</span> Driver());</div><div class="line">    &#125; <span class="keyword">catch</span> (SQLException E) &#123;</div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(“Can’t register driver!”);</div><div class="line">        &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>也就是，在Class.forName加载完驱动类，开始执行静态初始化代码时，会自动新建一个Driver的对象，并调用DriverManager.registerDriver把自己注册到DriverManager中去。</p>
@@ -872,92 +986,6 @@
 
 
   
-    <article id="post-Vue2-0之组件通信" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/17/Vue2-0之组件通信/">Vue2.0之组件通信</a>
-    </h1>
-  
-
-        
-        <a href="/2017/08/17/Vue2-0之组件通信/" class="archive-article-date">
-  	<time datetime="2017-08-17T15:47:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-17</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="1-父组件的data写法与子组件的data写法不同"><a href="#1-父组件的data写法与子组件的data写法不同" class="headerlink" title="1.父组件的data写法与子组件的data写法不同"></a>1.父组件的data写法与子组件的data写法不同</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">//父组件</div><div class="line">data:&#123;</div><div class="line">    //对象形式</div><div class="line">&#125;</div><div class="line"></div><div class="line">//子组件</div><div class="line">data:function()&#123;</div><div class="line">  return &#123;</div><div class="line">       //函数形式  </div><div class="line">   &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="2-引用子组件遵循"><a href="#2-引用子组件遵循" class="headerlink" title="2.引用子组件遵循"></a>2.引用子组件遵循</h2><p>引入组件 components里定义使用 如果有通信，需要在子组件的props注册 以下实例全部使用以下模板</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line">&lt;div id=&quot;app&quot;&gt;</div><div class="line">   //父组件</div><div class="line">    &lt;p&gt;&#123;&#123;total&#125;&#125;&lt;/p&gt;</div><div class="line">    &lt;mime @increment1=&quot;incrementTotal&quot; ref=&quot;child&quot; :num-a=&quot;total&quot; num-s=&quot;total&quot;&gt;&lt;/mime&gt;</div><div class="line"></div><div class="line">    &lt;button type=&quot;button&quot; @click=&quot;clickref&quot;&gt;调用子组件&lt;/button&gt;</div><div class="line">&lt;/div&gt;</div><div class="line"></div><div class="line">//子组件</div><div class="line">&lt;template id=&quot;myInput&quot;&gt;</div><div class="line">    &lt;button @click=&quot;add&quot;&gt;&#123;&#123;counter&#125;&#125;&lt;/button&gt;</div><div class="line">&lt;/template&gt;</div><div class="line">&lt;script&gt;</div><div class="line">    new Vue(&#123;</div><div class="line">        el:&apos;#app&apos;,</div><div class="line">        data :&#123;</div><div class="line">            total: 0          </div><div class="line">        &#125;,</div><div class="line">        methods:&#123;</div><div class="line">            incrementTotal : function()&#123;</div><div class="line"></div><div class="line">            &#125;,</div><div class="line">            clickref:function()&#123;</div><div class="line"></div><div class="line">            &#125;</div><div class="line">        &#125;,</div><div class="line">        components:&#123;</div><div class="line">            &apos;mime&apos; :&#123;</div><div class="line">                template:&apos;#myInput&apos;,</div><div class="line">                data : function()&#123;</div><div class="line">                    return&#123;</div><div class="line">                        counter : 0</div><div class="line">                    &#125;</div><div class="line">                &#125;,</div><div class="line">                props:[&apos;numA&apos;,&apos;numS&apos;],</div><div class="line">                methods:&#123;</div><div class="line">                    add : function()&#123;</div><div class="line"></div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;);</div><div class="line">&lt;/script&gt;</div></pre></td></tr></table></figure>
-<h3 id="1-父子通信-之-静态数据"><a href="#1-父子通信-之-静态数据" class="headerlink" title="1.父子通信 之 静态数据"></a>1.父子通信 之 静态数据</h3><p>如果只是传单一的字符串</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;mime num-s=&quot;total&quot;&gt;&lt;/mime&gt;</div><div class="line"></div><div class="line">....</div><div class="line"></div><div class="line">props:[&apos;numS&apos;] // numS  为字符串 total</div></pre></td></tr></table></figure>
-<p>这样子组件的numS一直为total。但这种太不灵活</p>
-<h3 id="2-父子通信-之-动态数据"><a href="#2-父子通信-之-动态数据" class="headerlink" title="2.父子通信 之 动态数据"></a>2.父子通信 之 动态数据</h3><p>父组件的数据将会动态传递给子组件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&lt;input v-model=&quot;total&quot;&gt;</div><div class="line">&lt;mime :num-a=&quot;total&quot;&gt;&lt;/mime&gt;</div><div class="line"></div><div class="line">....</div><div class="line"></div><div class="line">//props:[&apos;numA&apos;]</div><div class="line"></div><div class="line">props:&#123;</div><div class="line">   numA:[ String , Number ]  //允许字符串 数字</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>这时当input输入什么，子组件的numA将会得到什么</p>
-<h3 id="3-父子通信-之-子调用父"><a href="#3-父子通信-之-子调用父" class="headerlink" title="3.父子通信 之 子调用父"></a>3.父子通信 之 子调用父</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">&#123;&#123;total&#125;&#125;</div><div class="line">&lt;mime @increment=&quot;incrementTotal&quot;&gt;&lt;/mime&gt;</div><div class="line"></div><div class="line">&lt;template id=&quot;myInput&quot;&gt;</div><div class="line">    &lt;button @click=&quot;add&quot;&gt;&#123;&#123;counter&#125;&#125;&lt;/button&gt;</div><div class="line">&lt;/template&gt;</div><div class="line"></div><div class="line">...</div><div class="line">&lt;script&gt;</div><div class="line">....</div><div class="line">data:&#123;</div><div class="line">   tatal: 0</div><div class="line">&#125;,</div><div class="line">methods:&#123;</div><div class="line">   incrementTotal:function()&#123;</div><div class="line">       this.total +=1;</div><div class="line">   &#125;</div><div class="line">&#125;,</div><div class="line">components:&#123;</div><div class="line">   data : function()&#123;</div><div class="line">       return:&#123;</div><div class="line">          counter : 0</div><div class="line">       &#125;</div><div class="line">   &#125;,</div><div class="line">    methods : &#123;</div><div class="line">        add : function()&#123;</div><div class="line">             this.counter +=1;</div><div class="line">             this.$emit(&apos;increment&apos;); //子组件通过 $emit触发父组件的方法 increment   还可以传参   this.$emit(&apos;increment&apos; ,this.counter);</div><div class="line">        &#125;</div><div class="line">   &#125;</div><div class="line">&#125;</div><div class="line">&lt;/script&gt;</div></pre></td></tr></table></figure>
-<p>子组件执行add –&gt; 触发$emit –&gt; 触发父组件increment –&gt; 执行 incrementTotal 方法</p>
-<h3 id="4-父子通信-之-父调用子"><a href="#4-父子通信-之-父调用子" class="headerlink" title="4.父子通信 之 父调用子"></a>4.父子通信 之 父调用子</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">&lt;mime ref=&quot;child&quot;&gt;&lt;/mime&gt;</div><div class="line">&lt;button type=&quot;button&quot; @click=&quot;clickref&quot;&gt;调用子组件&lt;/button&gt;</div><div class="line"></div><div class="line">&lt;template id=&quot;myInput&quot;&gt;</div><div class="line">    &lt;button @click=&quot;add&quot;&gt;&#123;&#123;counter&#125;&#125;&lt;/button&gt;</div><div class="line">&lt;/template&gt;</div><div class="line"></div><div class="line">...</div><div class="line">&lt;script&gt;</div><div class="line">....</div><div class="line"></div><div class="line">methods:&#123;</div><div class="line">   clickref:function()&#123;</div><div class="line">          var child = this.$refs.child; //获取子组件实例</div><div class="line">          child.counter = 45;           //改变子组件数据</div><div class="line">          child.add(11);                //调用子组件方法 add</div><div class="line">       &#125;</div><div class="line">&#125;,</div><div class="line">components:&#123;</div><div class="line">   data : function()&#123;</div><div class="line">       return:&#123;</div><div class="line">          counter : 0</div><div class="line">       &#125;</div><div class="line">   &#125;,</div><div class="line">    methods : &#123;</div><div class="line">        add : function(num)&#123;</div><div class="line">             this.counter +=1;</div><div class="line">             console.log(&apos;接受父组件的值：&apos;,num) //num为11</div><div class="line">        &#125;</div><div class="line">   &#125;</div><div class="line">&#125;</div><div class="line">&lt;/script&gt;</div></pre></td></tr></table></figure>
-<p>通过在子组件上引用ref,从而获得子组件实例，进行相应操作。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">vue2.0, 组件通信</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/08/17/Vue2-0之组件通信/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -1059,31 +1087,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Hexo, 指令, 主题, 博客</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Eclipse, 开发工具, 字体</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Intellij Idea, Mac, 开发工具, IDE</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">css, Sticky footers</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">JDBC, Class.forName, com.mysql.jdbc.Driver</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">vuejs2.0，vue-router</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">趣说编程, Java注解, @Override, IO</a>
+                <a href="javascript:void(0)" class="js-tag color2">Hexo, 指令, 主题, 博客</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1091,7 +1099,31 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">vuejs2.0，vue-router</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">JDBC, Class.forName, com.mysql.jdbc.Driver</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">JavaWeb, DBUtils, QueryRunner</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Eclipse, 开发工具, 字体</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">RESTful, 趣说编程</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Intellij Idea, Mac, 开发工具, IDE</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">趣说编程, Java注解, @Override, IO</a>
               </li>
             
             <div class="clearfix"></div>
