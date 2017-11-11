@@ -290,12 +290,23 @@
 <p>最开始使用的时候，不明白为什么首先要加载一个驱动类，之后就可以取得了Connection了，很好奇DriverManager是怎么获得那个驱动类的信息，后来看了下com.mysql.jdbc.Driver这个类的源代码，豁然开朗了。原来在com.mysql.jdbc.Driver类中有这么一段静态初始化代码：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">static</span> &#123;</div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">        java.sql.DriverManager.registerDriver(<span class="keyword">new</span> Driver());</div><div class="line">    &#125; <span class="keyword">catch</span> (SQLException E) &#123;</div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(“Can’t register driver!”);</div><div class="line">        &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>也就是，在Class.forName加载完驱动类，开始执行静态初始化代码时，会自动新建一个Driver的对象，并调用DriverManager.registerDriver把自己注册到DriverManager中去。</p>
-<blockquote>
-<p>ps1: Class.forName(String) 与ClassLoader.loadClass(String)的区别<br>Class.forName(String): 加载类，并且执行类初始化；可以通过Class.forName(String, boolean, ClassLoader)第二个参数来仅仅加载类不执行初始化；<br>ClassLoader.loadClass(String): 仅仅加载类，不执行类初始化；</p>
-<p>ps2: 有时会看到这种用法：<br>Class.forName(“com.mysql.jdbc.Driver”).newInstance();<br>这是没有必要的，正如前述，静态初始化已经new了一个Driver的对象，注册到DriverManager中去，在此再建立一个Driver对象则是完全没有必要的，浪费空间。</p>
-<p>ps3: 结合ps1，Class.forName(“com.mysql.jdbc.Driver”);相当于：<br>ClassLoader loader = Thread.currentThread().getContextClassLoader();<br>Class cls = loader.loadClass(“com.mysql.jdbc.Driver”);<br>cls.newInstance();<br>这种方法的问题同ps2, 浪费了一个Driver对象；</p>
-<p>ps4: 在java 6中，引入了service provider的概念，即可以在配置文件中配置service（可能是一个interface或者abstract class）的provider（即service的实现类）。配置路径是：/META-INF/services/下面。详细信息见<a href="http://docs.oracle.com/javase/6/docs/technotes/guides/jar/jar.html#Service%20Provider" target="_blank" rel="external">文档</a><br>而java.sql.DriverManager也添加了对此的支持，因此，在JDK6中，DriverManager的查找Driver的范围为：<br>1）system property “jdbc.drivers” 中配置的Driver值；<br>2）用户调用Class.forName()注册的Driver<br>3）service provider配置文件java.sql.Driver中配置的Driver值。<br>因此，在jdk6中，其实是可以不用调用Class.forName来加载mysql驱动的，因为mysql的驱动程序jar包中已经包含了java.sql.Driver配置文件，并在文件中添加了com.mysql.jdbc.Driver.但在JDK6之前版本，还是要调用这个方法。</p>
-</blockquote>
+<ul>
+<li>ps1: Class.forName(String) 与ClassLoader.loadClass(String)的区别<br>Class.forName(String): 加载类，并且执行类初始化；可以通过Class.forName(String, boolean, ClassLoader)第二个参数来仅仅加载类不执行初始化；<br>ClassLoader.loadClass(String): 仅仅加载类，不执行类初始化；</li>
+</ul>
+<ul>
+<li><p>ps2: 有时会看到这种用法：<br>Class.forName(“com.mysql.jdbc.Driver”).newInstance();<br>这是没有必要的，正如前述，静态初始化已经new了一个Driver的对象，注册到DriverManager中去，在此再建立一个Driver对象则是完全没有必要的，浪费空间。</p>
+</li>
+<li><p>ps3: 结合ps1，Class.forName(“com.mysql.jdbc.Driver”);相当于：<br>ClassLoader loader = Thread.currentThread().getContextClassLoader();<br>Class cls = loader.loadClass(“com.mysql.jdbc.Driver”);<br>cls.newInstance();<br>这种方法的问题同ps2, 浪费了一个Driver对象；</p>
+</li>
+<li><p>ps4: 在java 6中，引入了service provider的概念，即可以在配置文件中配置service（可能是一个interface或者abstract class）的provider（即service的实现类）。配置路径是：/META-INF/services/下面。详细信息见<a href="http://docs.oracle.com/javase/6/docs/technotes/guides/jar/jar.html#Service%20Provider" target="_blank" rel="external">文档</a><br>而java.sql.DriverManager也添加了对此的支持，因此，在JDK6中，DriverManager的查找Driver的范围为：</p>
+<ul>
+<li>system property “jdbc.drivers” 中配置的Driver值；</li>
+<li>用户调用Class.forName()注册的Driver</li>
+<li>service provider配置文件java.sql.Driver中配置的Driver值。</li>
+</ul>
+</li>
+</ul>
+<p>因此，在jdk6中，其实是可以不用调用Class.forName来加载mysql驱动的，因为mysql的驱动程序jar包中已经包含了java.sql.Driver配置文件，并在文件中添加了com.mysql.jdbc.Driver.但在JDK6之前版本，还是要调用这个方法。</p>
 
       
 
@@ -1099,18 +1110,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">css, Sticky footers</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">vue2.0, 组件通信</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">vuejs2.0，vue-router</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">JDBC, Class.forName, com.mysql.jdbc.Driver</a>
               </li>
              
@@ -1119,11 +1118,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">vue2.0, 组件通信</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">css, Sticky footers</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">RESTful, 趣说编程</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">趣说编程, Java注解, @Override, IO</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">vuejs2.0，vue-router</a>
               </li>
             
             <div class="clearfix"></div>
