@@ -151,6 +151,124 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-JAVA反射与注解" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/11/11/JAVA反射与注解/">JAVA反射与注解</a>
+    </h1>
+  
+
+        
+        <a href="/2017/11/11/JAVA反射与注解/" class="archive-article-date">
+  	<time datetime="2017-11-11T11:33:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-11</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>Java的反射机制是Java特性之一，反射机制是构建框架技术的基础所在。灵活掌握Java反射机制，对大家以后学习框架技术有很大的帮助。<br> 那么什么是Java的反射呢？</p>
+</blockquote>
+<pre><code>大家都知道，要让Java程序能够运行，那么就得让Java类要被Java虚拟机加载。Java类如果不被Java虚拟机加载是不能正常运行的。现在我们运行的所有的程序都是在编译期的时候就已经知道了你所需要的那个类的已经被加载了。
+</code></pre><p>Java的反射机制是在编译并不确定是哪个类被加载了，而是在程序运行的时候才加载、探知、自审。使用在编译期并不知道的类。这样的特点就是反射。</p>
+<p>那么Java反射有什么作用呢？</p>
+<p>假如我们有两个程序员，一个程序员在写程序的时候，需要使用第二个程序员所写的类，但第二个程序员并没完成他所写的类。那么第一个程序员的代码能否通过编译呢？这是不能通过编译的。利用Java反射的机制，就可以让第一个程序员在没有得到第二个程序员所写的类的时候，来完成自身代码的编译。</p>
+<p>Java的反射机制它知道类的基本结构，这种对Java类结构探知的能力，我们称为Java类的“自审”。大家都用过Jcreator和eclipse。当我们构建出一个对象的时候，去调用该对象的方法和属性的时候。一按点，编译工具就会自动的把该对象能够使用的所有的方法和属性全部都列出来，供用户进行选择。这就是利用了Java反射的原理，是对我们创建对象的探知、自审。</p>
+<ul>
+<li>Class类<pre><code>要正确使用Java反射机制就得使用java.lang.Class这个类。它是Java反射机制的起源。当一个类被加载以后，Java虚拟机就会自动产生一个Class对象。通过这个Class对象我们就能获得加载到虚拟机当中这个Class对象对应的方法、成员以及构造方法的声明和定义等信息。
+</code></pre></li>
+<li>反射API<pre><code>u反射API用于反应在当前Java虚拟机中的类、接口或者对象信息
+</code></pre></li>
+<li>u功能</li>
+</ul>
+<ol>
+<li>获取一个对象的类信息.</li>
+<li>获取一个类的访问修饰符、成员、方法、构造方法以及超类的信息.</li>
+<li>检获属于一个接口的常量和方法声明.</li>
+<li>创建一个直到程序运行期间才知道名字的类的实例.</li>
+<li>获取并设置一个对象的成员，甚至这个成员的名字是在程序运行期间才知道.</li>
+<li>检测一个在运行期间才知道名字的对象的方法</li>
+</ol>
+<p>利用Java反射机制我们可以很灵活的对已经加载到Java虚拟机当中的类信息进行检测。当然这种检测在对运行的性能上会有些减弱，所以什么时候使用反射，就要靠业务的需求、大小，以及经验的积累来决定。</p>
+<p>那么如何利用反射API在运行的时候知道一个类的信息呢?</p>
+<p><code>import java.lang.reflect.Field;</code></p>
+<p><code>import java.lang.reflect.Method;</code></p>
+<p><code>import javax.swing.JOptionPane;</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment">  *本类用于测试反射API，利用用户输入类的全路径，</span></div><div class="line"><span class="comment">*找到该类所有的成员方法和成员属性</span></div><div class="line"><span class="comment">  */</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyTest</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line"><span class="comment">     *构造方法</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MyTest</span><span class="params">()</span></span>&#123;</div><div class="line"></div><div class="line">       String classInfo=JOptionPane.showInputDialog(<span class="keyword">null</span>,<span class="string">"输入类全路径"</span>);<span class="comment">//要求用户输入类的全路径</span></div><div class="line"></div><div class="line">       <span class="keyword">try</span> &#123;</div><div class="line">           Class cla=Class.forName(classInfo);<span class="comment">//根据类的全路径进行类加载，返回该类的Class对象</span></div><div class="line"></div><div class="line">           Method[] method=cla.getDeclaredMethods();<span class="comment">//利用得到的Class对象的自审，返回方法对象集合</span></div><div class="line"></div><div class="line">           <span class="keyword">for</span>(Method me:method)&#123;<span class="comment">//遍历该类方法的集合</span></div><div class="line">              System.out.println(me.toString());<span class="comment">//打印方法信息</span></div><div class="line">           &#125;</div><div class="line"></div><div class="line">           System.out.println(<span class="string">"********"</span>);</div><div class="line"></div><div class="line">           Field[] field=cla.getDeclaredFields();<span class="comment">//利用得到的Class对象的自审，返回属性对象集合</span></div><div class="line">           <span class="keyword">for</span>(Field me:field)&#123; <span class="comment">//遍历该类属性的集合</span></div><div class="line">              System.out.println(me.toString());<span class="comment">//打印属性信息</span></div><div class="line">           &#125;</div><div class="line">       &#125; <span class="keyword">catch</span> (ClassNotFoundException e) &#123;</div><div class="line">           e.printStackTrace();</div><div class="line">       &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">       <span class="keyword">new</span> MyTest();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>运行的时候，我们输入javax.swing.JFrame，那么运行结果如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">void</span> javax.swing.JFrame.remove(java.awt.Component)</div><div class="line"><span class="keyword">public</span> <span class="keyword">void</span> javax.swing.JFrame.update(java.awt.Graphics)</div><div class="line">…………</div><div class="line"></div><div class="line">********</div><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> javax.swing.JFrame.EXIT_ON_CLOSE</div><div class="line"><span class="keyword">private</span> <span class="keyword">int</span> javax.swing.JFrame.defaultCloseOperation</div><div class="line"> …………</div></pre></td></tr></table></figure>
+<p>大家可以发现，类的全路径是在程序运行的时候，由用户输入的。所以虚拟机事先并不知道所要加载类的信息，这就是利用反射机制来对用户输入的类全路径来对类自身的一个自审。从而探知该类所拥有的方法和属性。通过上面代码，大家可以知道编译工具为什么能够一按点就能列出用户当前对象的属性和方法了。它是先获得用户输入对象的字符串，然后利用反射原理来对这样的类进行自审，从而列出该类的方法和属性。</p>
+<p>使用反射机制的步骤：</p>
+<ol>
+<li>导入java.lang.relfect包</li>
+<li>遵循三个步骤<ul>
+<li>第一步是获得你想操作的类的 java.lang.Class 对象</li>
+<li>第二步是调用诸如 getDeclaredMethods 的方法</li>
+<li>第三步使用 反射API 来操作这些信息</li>
+</ul>
+</li>
+</ol>
+<p>获得Class对象的方法</p>
+<ol>
+<li><p>如果一个类的实例已经得到，你可以使用<br> <code>Class c = 对象名.getClass();</code></p>
+<p>   例： TextField t = new TextField();</p>
+<pre><code>Class c = t.getClass();
+      Class s = c.getSuperclass();
+</code></pre></li>
+<li><p>如果你在编译期知道类的名字，你可以使用如下的方法<br><code>Class c = java.awt.Button.class;</code>或者<code>Class c = Integer.TYPE;</code></p>
+</li>
+<li><p>如果类名在编译期不知道, 但是在运行期可以获得, 你可以使用下面的方法<code>Class c = Class.forName(strg);</code></p>
+</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyTest</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">       TestOne  one=<span class="keyword">null</span>;</div><div class="line">       <span class="keyword">try</span>&#123;</div><div class="line">       Class  cla=Class.forName(<span class="string">"com.TestOne"</span>);<span class="comment">//进行com.TestOne类加载，返回一个Class对象</span></div><div class="line">       System.out.println(<span class="string">"********"</span>);</div><div class="line">       one=(TestOne)cla.newInstance();<span class="comment">//产生这个Class类对象的一个实例，调用该类无参的构造方法，作用等同于new TestOne()</span></div><div class="line">       &#125;<span class="keyword">catch</span>(Exception e)&#123;</div><div class="line">           e.printStackTrace();</div><div class="line">       &#125;</div><div class="line">       TestOne two=<span class="keyword">new</span> TestOne();</div><div class="line">  System.out.println(one.getClass() == two.getClass());<span class="comment">//比较两个TestOne对象的Class对象是否是同一个对象，在这里结果是true。说明如果两个对象的类型相同，那么它们会有相同的Class对象</span></div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">TestOne</span></span>&#123;</div><div class="line">    <span class="keyword">static</span>&#123;</div><div class="line">       System.out.println(<span class="string">"静态代码块运行"</span>);</div><div class="line">    &#125;</div><div class="line">    TestOne()&#123;</div><div class="line">       System.out.println(<span class="string">"构造方法"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><code>Class.forName(&quot;com.TestOne&quot;)</code>的时候，实际上是对com.TestOne进行类加载，这时候，会把静态属性、方法以及静态代码块都加载到内存中。所以这时候会打印出”静态代码块运行”。但这时候，对象却还没有产生。所以”构造方法”这几个字不会打印。当执行cla.newInstance()的时候，就是利用反射机制将Class对象生成一个该类的一个实例。这时候对象就产生了。所以打印”构造方法”。当执行到TestOne two=new TestOne()语句时，又生成了一个对象。但这时候类已经加载完毕，静态的东西已经加载到内存中，而静态代码块只执行一次，所以不用再去加载类，所以只会打印”构造方法”，而”静态代码块运行”不会打印。反射机制不但可以例出该类对象所拥有的方法和属性，还可以获得该类的构造方法及通过构造方法获得实例。也可以动态的调用这个实例的成员方法。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/11/11/JAVA反射与注解/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-关于DBUtils中QueryRunner的一些解读" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -286,7 +404,8 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>传统的使用jdbc来访问数据库的流程为：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Class.forName(“com.mysql.jdbc.Driver”);</div><div class="line">String url = “jdbc:mysql:<span class="comment">//localhost:3306/test?user=root&amp;password=123456″;</span></div><div class="line">Connection con = DriverManager.getConnection(url);</div><div class="line">Statement statement = con.createStatement();</div></pre></td></tr></table></figure></p>
+        <p>传统的使用jdbc来访问数据库的流程为：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Class.forName(“com.mysql.jdbc.Driver”);</div><div class="line">String url = “jdbc:mysql:<span class="comment">//localhost:3306/test?user=root&amp;password=123456″;</span></div><div class="line">Connection con = DriverManager.getConnection(url);</div><div class="line">Statement statement = con.createStatement();</div></pre></td></tr></table></figure>
 <p>最开始使用的时候，不明白为什么首先要加载一个驱动类，之后就可以取得了Connection了，很好奇DriverManager是怎么获得那个驱动类的信息，后来看了下com.mysql.jdbc.Driver这个类的源代码，豁然开朗了。原来在com.mysql.jdbc.Driver类中有这么一段静态初始化代码：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">static</span> &#123;</div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">        java.sql.DriverManager.registerDriver(<span class="keyword">new</span> Driver());</div><div class="line">    &#125; <span class="keyword">catch</span> (SQLException E) &#123;</div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(“Can’t register driver!”);</div><div class="line">        &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>也就是，在Class.forName加载完驱动类，开始执行静态初始化代码时，会自动新建一个Driver的对象，并调用DriverManager.registerDriver把自己注册到DriverManager中去。</p>
@@ -320,7 +439,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">JDBC, Class.forName, com.mysql.jdbc.Driver</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">JDBC, Class.forName</a>
         		</li>
       		
 		</ul>
@@ -916,87 +1035,6 @@
 
 
   
-    <article id="post-Sticky-footers-布局" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/27/Sticky-footers-布局/">Sticky footers 布局</a>
-    </h1>
-  
-
-        
-        <a href="/2017/08/27/Sticky-footers-布局/" class="archive-article-date">
-  	<time datetime="2017-08-27T14:39:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-27</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在content的外面可以添加一个wrapper 这种方法就是在content的外面添加一个包裹容器，将html代码改成这样：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"wrapper"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"content"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span>　</div><div class="line">　　<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"footer"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>然后添加以下样式：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">html</span>, <span class="selector-tag">body</span>, <span class="selector-class">.wrapper</span> &#123;</div><div class="line">     <span class="attribute">height</span>: <span class="number">100%</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-tag">body</span> &gt; <span class="selector-class">.wrapper</span> &#123;</div><div class="line">     <span class="attribute">height</span>: auto; <span class="attribute">min-height</span>: <span class="number">100%</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.content</span> &#123;</div><div class="line">    <span class="attribute">padding-bottom</span>: <span class="number">150px</span>;</div><div class="line">&#125;  </div><div class="line"><span class="selector-class">.footer</span> &#123;</div><div class="line">    <span class="attribute">position</span>: relative;</div><div class="line">    <span class="attribute">margin-top</span>: -<span class="number">150px</span>;</div><div class="line">    <span class="attribute">height</span>: <span class="number">150px</span>;</div><div class="line">    <span class="attribute">clear</span>:both;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>另外，为了保证兼容性，需要在wrapper上添加clearfix类。其代码如下：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"wrapper clearfix"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"content"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span>　</div><div class="line">　　<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"footer"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>clearfix样式为：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.clearfix</span>&#123;</div><div class="line">     <span class="attribute">display</span>: inline-block;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.clearfix</span><span class="selector-pseudo">:after</span> &#123;</div><div class="line">     <span class="attribute">content</span>: <span class="string">"."</span>;</div><div class="line">     <span class="attribute">display</span>: block;</div><div class="line">     <span class="attribute">height</span>: <span class="number">0</span>;</div><div class="line">     <span class="attribute">clear</span>: both;</div><div class="line">     <span class="attribute">visibility</span>: hidden;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">css, Sticky footers</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/08/27/Sticky-footers-布局/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -1106,23 +1144,27 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Intellij Idea, Mac, 开发工具, IDE</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">JDBC, Class.forName, com.mysql.jdbc.Driver</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">JavaWeb, DBUtils, QueryRunner</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">vue2.0, 组件通信</a>
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Intellij Idea, Mac, 开发工具, IDE</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">JDBC, Class.forName</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">css, Sticky footers</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">vuejs2.0，vue-router</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">JavaWeb, DBUtils, QueryRunner</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1131,10 +1173,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">趣说编程, Java注解, @Override, IO</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">vuejs2.0，vue-router</a>
               </li>
             
             <div class="clearfix"></div>
