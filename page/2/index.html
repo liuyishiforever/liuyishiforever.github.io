@@ -151,6 +151,130 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-CSS姓氏命名法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/10/09/CSS姓氏命名法/">CSS姓氏命名法</a>
+    </h1>
+  
+
+        
+        <a href="/2017/10/09/CSS姓氏命名法/" class="archive-article-date">
+  	<time datetime="2017-10-09T07:33:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-09</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>由历史原因及个人习惯引起的DOM结构、命名不统一，导致不同成员在维护同一页面时，无从下手，效率低下，迭代、维护成本极高。和老大和我们组内的几个同学一起制订出的一套命名方法：姓氏命名法 。该命名方法的核心是，只要保证最外层模块名不重复，模块内部可以任意命名。</p>
+<h1 id="命名原则"><a href="#命名原则" class="headerlink" title="命名原则"></a>命名原则</h1><h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1. 概述"></a>1. 概述</h2><h3 id="1-1-基于姓氏命名法（继承-外来）"><a href="#1-1-基于姓氏命名法（继承-外来）" class="headerlink" title="1.1 基于姓氏命名法（继承+外来）"></a>1.1 基于姓氏命名法（继承+外来）</h3><p><img src="http://chuantu.biz/t6/87/1507565206x1947816474.png" data-rawwidth="491" data-rawheight="341" class="origin_image zh-lightbox-thumb" width="491"></p>
+<h3 id="1-2-说明"><a href="#1-2-说明" class="headerlink" title="1.2 说明"></a>1.2 说明</h3><p>1）简单模块：在子孙模块数量可预测的情况下，继承祖先模块的命名前缀<br><img src="http://chuantu.biz/t6/87/1507564922x1947816474.png" data-rawwidth="1862" data-rawheight="698" class="origin_image zh-lightbox-thumb" width="1862"></p>
+<p>如上图的焦点图轮播模块，模块整体结构比较简单，子元素的内容相对较少，这种情况下，假设将模块命名为 ： slider，那么其后续的所有子元素，均需要继承这个类名。</p>
+<pre><code>slider
+├── slider-list
+|    |
+|    └── ....
+└── slider-nav
+|    |
+|    └── ....
+</code></pre><p>2）复杂模块：当子孙模块数量较多，且无法预估时，可以选择采用继承“祖先+父”模块的命名前缀，以保证模块之间的独立性</p>
+<p><img src="http://chuantu.biz/t6/87/1507565063x1947816474.png" data-rawwidth="1750" data-rawheight="636" class="origin_image zh-lightbox-thumb" width="1750"></p>
+<p>在上图的模块中，一个大楼层里面包含一个子模块：tab切换。在这种结构复杂的模块中，为了保证模块类名使用简单（css起名也是一个体力活）和结构看起来更清晰，可以使用继承“祖先+父”模块的命名前缀的方式。<br>在这个楼层模块中，楼层的名字叫：floor ，里面的tab切换单个内容块名字叫 item，那么 tab切换内部的子元素命名规则为 ： floor-item-xxx<br>如：</p>
+<pre><code>floor
+├── floor-hd
+|    |
+|    ├── floor-tit
+|
+├── floor-item
+|    |
+|    ├── floor-item-tit
+|    └── floor-item-desc
+</code></pre><p>上面代码中使用了2次 tit 来表示标题，也就是说如果你自己有一组命名包，你就可以很轻松的进行命名了，比如描述相关：desc、info、extra等等。</p>
+<p>3）复合模块：子模块中，可以嵌套其他模块，可理解为“娶媳妇”</p>
+<p><img src="http://chuantu.biz/t6/87/1507565115x1947816474.png" data-rawwidth="1756" data-rawheight="730" class="origin_image zh-lightbox-thumb" width="1756"></p>
+<p>模块间本身会有嵌套情况，如上面的结构，在今日特惠这个模块中嵌套了一个公共组件。可以理解为娶媳妇。（媳妇一般是外姓的）。<br>如：</p>
+<pre><code>hotsales
+├── hotsales_li
+| |
+| └── mod_goods
+| |
+| ├── mod_goods_price
+| └── mod_goods_tit
+| └── mod_goods_promo
+</code></pre><p>当然，其实第二点也可以用第三点的方式来实现，那么这里就涉及到一个问题？什么时候用第三点提到的方法。<br>比较推荐的建议是，如果嵌套的模块是一个比较通用的组件，那么可以用第三点，将子模块抽出成一个独立的组件，而其他情况下建议使用第二点的方式。<br>基于以上的方式，可以完成基本的命名规则，但是无法区分模块的类型。（模块是否可复用？复用范围？）<br>于是我们在模块的命名规则上遵循以下原则：</p>
+<ol>
+<li>全站公共模块以”mod-”开头</li>
+<li>页面公共模块以”xx-mod-”开头（xx为页面名称缩写）</li>
+<li>独立模块，命名为一个简短的单词，如”hot、floor、banner” 等</li>
+</ol>
+<p>基于以下2点来区分全站公共模块及页面模块。</p>
+<ol>
+<li>同一个页面出现2次及以上同一个类名</li>
+<li>2个以上页面出现同一个类名</li>
+</ol>
+<p>在这种规则下，可能会出现这个模块原先是独立模块的，然后发现可以复用了，然后就修改类名变成公共模块。这种变更成本比较低，可接受。（因为独立模块在页面上只有一处，修改类名不会影响到其他样式）</p>
+<p>基于这个css姓氏命名法，我们的类名是长命名的方式了，只要保证了最外层模块的唯一性，那么里面的子模块类名是不可能会出现重复的。<br>于是，我们要求，CSS以单层命名为主，嵌套一般不能操过3层。</p>
+<p>这样在修改样式与html结构时，相互之间是耦合的，css不依赖于html的结构。（我知道很多同事写less或scss喜欢像html那样一层一层嵌套）</p>
+<p>最后附上以前写的代码：</p>
+<p><img src="http://chuantu.biz/t6/87/1507565155x1947816474.jpg" data-rawwidth="1758" data-rawheight="620" class="origin_image zh-lightbox-thumb" width="1758"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">css, 命名, 规范</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/10/09/CSS姓氏命名法/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-Sticky-footers-布局" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -595,6 +719,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Eclipse, 开发工具, 字体</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Hexo, 指令, 主题, 博客</a>
               </li>
              
@@ -603,11 +731,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Eclipse, 开发工具, 字体</a>
+                <a href="javascript:void(0)" class="js-tag color5">vuejs2.0，vue-router</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Intellij Idea, Mac, 开发工具, IDE</a>
+                <a href="javascript:void(0)" class="js-tag color3">设计模式, 代理模式, ProxyModel</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -615,11 +743,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">vue2.0, 组件通信</a>
+                <a href="javascript:void(0)" class="js-tag color5">Intellij Idea, Mac, 开发工具, IDE</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">JDBC, Class.forName</a>
+                <a href="javascript:void(0)" class="js-tag color3">vue2.0, 组件通信</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -627,15 +755,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">vuejs2.0，vue-router</a>
+                <a href="javascript:void(0)" class="js-tag color4">RESTful, 趣说编程</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">JDBC, Class.forName</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">JavaWeb, DBUtils, QueryRunner</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">RESTful, 趣说编程</a>
               </li>
              
               <li class="article-tag-list-item">
